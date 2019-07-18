@@ -1,0 +1,79 @@
+<aside ng-controller="menuCtrl">
+    <div class="menu-panel" >
+        <div class="slimScrollDiv">
+            <div class="slimscrollright">
+                <div class="m-panel-body">
+                    <div class="regist-menu-list">
+                        <div class="list-section">
+                            <h1>Recently Opened</h1>
+                            <ul>
+                                <li>
+                                    <a>
+                                        <p>
+                                            <i class="fa fa-dashboard"></i>
+                                            <span class="vertical-middle">Recently Opened A</span>
+                                        </p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <p>
+                                            <i class="fa fa-dashboard"></i>
+                                            <span class="vertical-middle">Recently Opened B</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-section">
+                            <h1>Favorites</h1>
+                            <ul class="menu-panel-favor-list">
+                                <li>
+                                    <a>
+                                        <p>
+                                            <i class="fa fa-dashboard"></i>
+                                            <span class="vertical-middle">Favorites A</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="full-menu-list">
+                        <div class="list-section">
+                            <div class="item" ng-repeat = "d0 in menus">
+                                <h1>{{d0.menuName}}</h1>
+                                <ul>
+                                    <li ng-repeat = "d1 in d0.children" >
+                                        <button class="menu-panel-item" ng-click="addTab(d1.menuId, d1.menuName, d1.pageUrl);"> <!-- clickMenu(d1.pageUrl);" -->
+                                            <div class="clearfix block">
+                                                <p class="pull-left">
+                                                    <i class="icon-settings"></i>
+                                                    <span class="vertical-middle">{{d1.menuName}}</span>
+                                                </p>
+                                                <p ng-if = "d1.children.length > 0"  class="pull-right">
+                                                    <i class="fa fa-caret-down inline-block"></i>
+                                                </p>
+                                            </div>
+                                        </button>
+                                        <ul ng-if = "d1.children.length > 0" >
+                                            <li ng-repeat = "d2 in d1.children">
+                                                <a class="menu-panel-item" ng-click="addTab(d2.menuId, d2.menuName, d2.pageUrl);">
+                                                    <p>
+                                                        <i class="icon-settings"></i>
+                                                        <span class="vertical-middle">{{d2.menuName}}</span>
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-shade"></div>
+</aside>
