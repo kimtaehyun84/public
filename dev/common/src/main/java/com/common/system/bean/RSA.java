@@ -1,4 +1,4 @@
-package com.hyosung.common.system.utils.bean;
+package com.common.system.bean;
 
 /**
  * @Package : common.hyosung.common.system.utils

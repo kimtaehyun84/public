@@ -1,4 +1,4 @@
-package com.hyosung.common.system.utils.service;
+package com.common.system.service;
 
 import java.util.Date;
 
@@ -18,4 +18,5 @@ public interface UtilService {
     public long getTimeDiffBySec(String value, String format) throws Exception;
     public long getTimeDiffByHour(String value, String format) throws Exception;
     public long getTimeDiffByDay(String value, String format) throws Exception;
+
 }

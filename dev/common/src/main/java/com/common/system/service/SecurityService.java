@@ -1,4 +1,4 @@
-package com.hyosung.common.system.utils.service;
+package com.common.system.service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;

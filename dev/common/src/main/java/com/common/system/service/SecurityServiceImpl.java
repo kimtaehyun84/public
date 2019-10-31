@@ -1,8 +1,8 @@
-package com.hyosung.common.system.utils.service;
+package com.common.system.service;
 
 import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.system.utils.bean.Hashing;
-import com.hyosung.common.system.utils.bean.RSA;
+import com.common.system.bean.Hashing;
+import com.common.system.bean.RSA;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

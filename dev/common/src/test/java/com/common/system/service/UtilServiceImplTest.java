@@ -1,4 +1,4 @@
-package com.hyosung.common.system.utils.service;
+package com.common.system.service;
 
 import org.junit.Test;
 

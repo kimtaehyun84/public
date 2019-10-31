@@ -1,7 +1,7 @@
-package com.hyosung.common.system.utils.controller;
+package com.common.system.controller;
 
 import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.system.utils.service.SecurityService;
+import com.common.system.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

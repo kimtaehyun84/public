@@ -6,7 +6,7 @@ import com.hyosung.common.business.login.service.LoginService;
 import com.hyosung.common.business.login.vo.LoginVO;
 import com.hyosung.common.business.session.service.SessionService;
 import com.hyosung.common.business.session.vo.UserSessionVO;
-import com.hyosung.common.system.utils.service.SecurityService;
+import com.common.system.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**

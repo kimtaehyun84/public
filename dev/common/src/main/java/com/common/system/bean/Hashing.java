@@ -1,4 +1,4 @@
-package com.hyosung.common.system.utils.bean;
+package com.common.system.bean;
 
 import com.hyosung.common.business.common.bean.Globals;
 
