@@ -1,6 +1,6 @@
-package com.hyosung.common.prehandler.filter;
+package com.common.prehandler.filter;
 
-import com.common.system.bean.RequestWrapper;
+import com.common.system.bean.ReReadableRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HttpRequestWrapperFilter implements Filter {
+public class ValidationFilter implements Filter {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -32,9 +32,9 @@ public class HttpRequestWrapperFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 		else{
-			RequestWrapper myRequestWrapper = new RequestWrapper((HttpServletRequest) request);
+			ReReadableRequestWrapper myReReadableRequestWrapper = new ReReadableRequestWrapper((HttpServletRequest) request);
 
-			String body = myRequestWrapper.getBody();
+			String body = myReReadableRequestWrapper.getBody();
 			String regHtml = "\\<(/?[^\\>]+)\\>";
 			String reg = "^[0-9a-zA-Z ~!&@$*()^_=-`\\-;:\",\\.?/>*+\\[\\]{}]*$";
 			String regSQL = "^[0-9a-zA-Z *()_=-`\\-;:\",\\.<>\\[\\]{}]*$";
@@ -47,7 +47,7 @@ public class HttpRequestWrapperFilter implements Filter {
 					Matcher matcherHtml = patternHtml.matcher(body);
 					if(matcherHtml.find() != true){
 						logger.info("[Pre Handler] : finished");
-						chain.doFilter(myRequestWrapper, response);
+						chain.doFilter(myReReadableRequestWrapper, response);
 					}
 					else{
 						logger.error("Invalid Parameter");
@@ -62,16 +62,16 @@ public class HttpRequestWrapperFilter implements Filter {
 
 					if(matcher.matches()) {
 						logger.info("[Pre Handler] : finished");
-						chain.doFilter(myRequestWrapper, response); //here replacing request with requestWrapper
+						chain.doFilter(myReReadableRequestWrapper, response); //here replacing request with requestWrapper
 					} else {
 						if(uri.indexOf("datasets") > -1 || uri.indexOf("gadget") > -1){
-							chain.doFilter(myRequestWrapper, response);
+							chain.doFilter(myReReadableRequestWrapper, response);
 							Pattern patternSQL = Pattern.compile(regSQL);
 							Matcher matcherSQL = patternSQL.matcher(body);
 							logger.info("[Body SQL] : " + matcherSQL.matches());
 							if(matcherSQL.matches()){
 								logger.info("Pre Handler] : finished");
-								chain.doFilter(myRequestWrapper, response);
+								chain.doFilter(myReReadableRequestWrapper, response);
 							}
 							else{
 								logger.error("Invalid Parameter");
@@ -85,7 +85,7 @@ public class HttpRequestWrapperFilter implements Filter {
 
 					}*/
 				} else {
-					chain.doFilter(myRequestWrapper, response); //here replacing request with requestWrapper
+					chain.doFilter(myReReadableRequestWrapper, response); //here replacing request with requestWrapper
 				}
 			} catch (Exception e) {
 				logger.info("exception in validation filter " + e);

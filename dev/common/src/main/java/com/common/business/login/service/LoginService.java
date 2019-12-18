@@ -1,12 +1,12 @@
-package com.hyosung.common.business.login.service;
+package com.common.business.login.service;
 
-import com.hyosung.common.business.common.vo.ResponseResultVO;
+import com.common.business.common.vo.ResponseResultVO;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Package : com.hyosung.common.business.login.service
+ * @Package : com.common.business.login.service
  * @FileName : LoginService
  * @Version : 1.0
  * @Date : 2019-04-11

@@ -1,8 +1,8 @@
-package com.hyosung.common.business.menu.controller;
+package com.common.business.menu.controller;
 
-import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.business.menu.service.MenuService;
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.common.vo.ResponseResultVO;
+import com.common.business.menu.service.MenuService;
+import com.common.business.session.vo.UserSessionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 /**
- * @Package  : com.hyosung.common.business.menu.controller
+ * @Package  : com.common.business.menu.controller
  * @FileName : MenuController
  * @Version : 1.0
  * @Date : 2019-06-21
@@ -47,7 +47,7 @@ public class MenuController {
         * @Date : 2019-06-21
         * @Author : Taehyun Kim
         * @Param : [inputParam, request, session]
-        * @Return : com.hyosung.common.business.common.vo.ResponseResultVO
+        * @Return : com.common.business.common.vo.ResponseResultVO
         * @Description :
         * ========================================================================
         *  Date              ||  Name              ||  Descripton

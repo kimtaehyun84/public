@@ -12,7 +12,7 @@ myApp.controller('loginCtrl', [
         $scope.login = {};
         $scope.login.userId;
         $scope.login.userPwd;
-        $scope.login.kind = 1;
+        $scope.login.type = '01';
         $scope.loadingView = false;
 
         if (LoginService.checkCookie()) {
@@ -35,11 +35,12 @@ myApp.controller('loginCtrl', [
             }
             var inputParam;
             inputParam = {
+                loginType : '01',
                 userId: $scope.login.userId,
-                userPwd: encryptSha256($scope.login.userPwd)
+                userPwd: $scope.login.userPwd
             };
             $scope.loadingView = true;
-            CommonService.post('/login', inputParam)
+            CommonService.securePost('/login', inputParam)
             .then(
                 function onSuccess(response) {
                     $scope.loadingView = false;
@@ -79,8 +80,8 @@ myApp.controller('loginCtrl', [
         $scope.changePassword = function () {
             var inputParam = {
                 userId: $scope.changePassword.userId,
-                curPwd: encryptSha256($scope.changePassword.userPwd),
-                newPwd: encryptSha256($scope.changePassword.newPwd)
+                curPwd: encryptByRSA($scope.changePassword.userPwd),
+                newPwd: encryptByRSA($scope.changePassword.newPwd)
             }
 
             CommonService.post('/user/changePassword', inputParam)

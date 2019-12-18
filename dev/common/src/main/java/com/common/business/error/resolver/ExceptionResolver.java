@@ -1,4 +1,4 @@
-package com.hyosung.common.business.error.resolver;
+package com.common.business.error.resolver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Package : com.hyosung.common.business.error.resolver
+ * @Package : com.common.business.error.resolver
  * @FileName : ExceptionResolver
  * @Version : 1.0
  * @Date : 2019-04-16

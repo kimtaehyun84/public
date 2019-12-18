@@ -14,6 +14,7 @@ package com.common.system.utils;
  * ========================================================================
  */
 
+import com.common.business.common.bean.Config;
 import com.common.system.bean.Hashing;
 import com.common.system.bean.RSA;
 import com.common.system.service.SecurityService;
@@ -64,7 +65,7 @@ public class SecurityUtils {
          */
 
         public static  void removeRsaKey(HttpServletRequest request) throws Exception{
-            request.getSession().removeAttribute(com.hyosung.common.business.common.bean.Globals.RSA_PRIVATE_KEY);
+            request.getSession().removeAttribute(com.common.business.common.bean.Globals.RSA_PRIVATE_KEY);
         }
 
         /**
@@ -78,10 +79,10 @@ public class SecurityUtils {
          *********************************************************
          */
 
-        public static String decryptRsa(HttpServletRequest request, String value) throws Exception {
-            HttpSession session = request.getSession();
-            PrivateKey privateKey = (PrivateKey)session.getAttribute(com.hyosung.common.business.common.bean.Globals.RSA_PRIVATE_KEY);
-
+        public static String decryptRsa(String value) throws Exception {
+            /*HttpSession session = request.getSession();*/
+//            PrivateKey privateKey = (PrivateKey)session.getAttribute(com.common.business.common.bean.Globals.RSA_PRIVATE_KEY);
+            PrivateKey privateKey = Config.getPrivateKey();
             String deValue = RSA.decryptRsa(privateKey, value);
 
             return deValue;

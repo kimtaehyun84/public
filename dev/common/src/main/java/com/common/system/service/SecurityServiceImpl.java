@@ -1,6 +1,6 @@
 package com.common.system.service;
 
-import com.hyosung.common.business.common.bean.Globals;
+import com.common.business.common.bean.Globals;
 import com.common.system.bean.Hashing;
 import com.common.system.bean.RSA;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.security.PrivateKey;
 import java.util.HashMap;
 
 /**
- * @Package : com.hyosung.common.system.utils.service
+ * @Package : com.common.system.utils.service
  * @FileName :
  * @Version :
  * @Date : 2019-04-16

@@ -8,4 +8,17 @@
         (USER_NO, TRANSACTION_NAME, REG_DATE) values (#{userNo},#{transactionName}, GETDATE())
     </insert>
 
+
+    <select id="selectServerConfig" resultType="hashmap">
+        SELECT
+            A.LOGIN_TYPE as loginType,
+            A.LOGIN_ENABLE as loginEnable,
+            A.SHA_REPEAT_CNT as shaRepeatCnt,
+            A.CORS_DOMAIN as corsDomain,
+            A.CORS_HEADER as corsHeader
+        FROM T_COM_CONFIG A
+        WHERE 1=1
+            AND TYPE = #{type}
+    </select>
+
 </mapper>

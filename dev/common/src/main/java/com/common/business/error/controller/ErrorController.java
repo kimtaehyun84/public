@@ -1,7 +1,7 @@
-package com.hyosung.common.business.error.controller;
+package com.common.business.error.controller;
 
-import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.business.common.vo.ResponseResultVO;
+import com.common.business.common.bean.Globals;
+import com.common.business.common.vo.ResponseResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Package  : com.hyosung.common.system
+ * @Package  : com.common.system
  * @FileName : ErrorController
  * @Version : 1.0
  * @Date : 2019-04-08
@@ -21,7 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ErrorController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * @Name: error
@@ -37,6 +38,7 @@ public class ErrorController {
         ResponseResultVO responseResult = new ResponseResultVO();
         responseResult.setStatus(Globals.RESULT_FAIL);
         responseResult.setMsg(Globals.ERROR_MSG);
+        logger.error(ex.getMessage());
         return responseResult;
     }
 }

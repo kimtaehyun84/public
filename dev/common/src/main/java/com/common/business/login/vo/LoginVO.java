@@ -1,4 +1,4 @@
-package com.hyosung.common.business.login.vo;
+package com.common.business.login.vo;
 
 /**
  * @Package : common.hyosung.common.business.session.vo
@@ -9,16 +9,16 @@ package com.hyosung.common.business.login.vo;
  * @Description : Login 정보를 전달하는 VO
  */
 public class LoginVO {
-    private String kind;
+    private String loginType;
     private String userId;
     private String userPwd;
 
-    public String getKind() {
-        return kind;
+    public String getLoginType() {
+        return loginType;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 
     public String getUserId() {
@@ -40,7 +40,7 @@ public class LoginVO {
     @Override
     public String toString() {
         return "LoginVO{" +
-                "kind='" + kind + '\'' +
+                "loginType='" + loginType + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userPwd='" + userPwd + '\'' +
                 '}';

@@ -1,12 +1,12 @@
-package com.hyosung.common.business.login.dao;
+package com.common.business.login.dao;
 
-import com.hyosung.common.business.common.dao.AbstractDAO;
+import com.common.business.common.dao.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
 /**
- * @Package : com.hyosung.common.business.login.dao
+ * @Package : com.common.business.login.dao
  * @FileName :
  * @Version :
  * @Date : 2019-04-12

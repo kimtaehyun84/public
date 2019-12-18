@@ -1,4 +1,4 @@
-package com.hyosung.common.business.session.vo;
+package com.common.business.session.vo;
 
 /**
  * @Package : common.hyosung.common.business.session.vo

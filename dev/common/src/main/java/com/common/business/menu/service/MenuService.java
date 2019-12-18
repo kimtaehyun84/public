@@ -1,6 +1,6 @@
-package com.hyosung.common.business.menu.service;
+package com.common.business.menu.service;
 
-import com.hyosung.common.business.common.vo.ResponseResultVO;
+import com.common.business.common.vo.ResponseResultVO;
 
 import java.util.HashMap;
 

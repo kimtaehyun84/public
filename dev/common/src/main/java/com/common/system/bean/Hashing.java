@@ -1,6 +1,6 @@
 package com.common.system.bean;
 
-import com.hyosung.common.business.common.bean.Globals;
+import com.common.business.common.bean.Globals;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
- * @Package : com.hyosung.common.system.utils.bean
+ * @Package : com.common.system.utils.bean
  * @FileName : Hashing
  * @Version : 1.0
  * @Date : 2019-04-16

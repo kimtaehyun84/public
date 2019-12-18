@@ -1,28 +1,36 @@
-package com.hyosung.common.business.login.controller;
+package com.common.business.login.controller;
 
-import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.business.login.service.LoginService;
-import com.hyosung.common.business.login.vo.LoginVO;
-import com.hyosung.common.business.session.service.SessionService;
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.common.bean.Config;
+import com.common.business.common.bean.Globals;
+import com.common.business.common.vo.RequestParamVO;
+import com.common.business.common.vo.ResponseResultVO;
+import com.common.business.login.service.LoginService;
+import com.common.business.login.vo.LoginVO;
+import com.common.business.session.service.SessionService;
+import com.common.business.session.vo.UserSessionVO;
 import com.common.system.service.SecurityService;
+import com.common.system.utils.SecurityUtils;
+import com.common.system.utils.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.Arrays;
 import java.util.HashMap;
 
 
 /**
- * @Package : com.hyosung.common.business.login.controller
+ * @Package : com.common.business.login.controller
  * @FileName : LoginController
  * @Version : 1.0
  * @Date : 2019-04-11
@@ -43,26 +51,41 @@ public class LoginController {
     @Resource(name = "securityService")
     private SecurityService securityService;
 
-    @Value("#{commonProperties['login.kind']}")
-    private String loginKind;
+
+    private String loginEnable = Config.getLoginEnable();
 
     @RequestMapping(value = "/login")
-    public @ResponseBody  ResponseResultVO login(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws Exception {
-        logger.debug(loginVO.toString());
+    public @ResponseBody ResponseResultVO login(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws Exception {
+
+
+        logger.debug("Param : " + loginVO.toString());
+        HashMap<String,Object> inputParam = new HashMap<>();
         ResponseResultVO responseResult = new ResponseResultVO();
-        HashMap<String, Object> inputParam = new HashMap<String, Object>();
+
         HashMap<String, Object> result = new HashMap<String, Object>();
+        String userId  = loginVO.getUserId();
+        String userPwd  = loginVO.getUserPwd();
+        String loginType = loginVO.getLoginType();
+        String loginTypeText = (loginType.equals("01") ? "  General Login" : (loginType.equals("02") ? " Single Sign On" : "  Active Directory Login"));
 
-        String userId = loginVO.getUserId();
-        String userPwd = loginVO.getUserPwd();
+
+        logger.debug("User ID : " + userId);
+        logger.debug("User Pwd : " + userPwd);
+        logger.info("Login Type : " + loginType + " " + loginTypeText);
 
 
-        logger.info("Kind : " + loginKind + (loginKind.equals("01") ? "  General Login" : (loginKind.equals("02") ? " Single Sign On" : "  Active Directory Login")));
-        if(loginKind.equals("01")){
-            inputParam.put("userId", userId);
+
+
+        if(Arrays.stream(Config.getLoginType()).filter(allowedLoginType -> allowedLoginType.contains(loginType)) == null){
+            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType +" " + loginTypeText +" is not allowed]");
+            responseResult.setStatus(Globals.RESULT_FAIL);
+            responseResult.setMsg("Login Type "+ loginType + " " + loginTypeText + "is not allowed");
+        }
+        if(loginType.equals("01")){
+
+
+            inputParam.put("userId",userId);
             inputParam.put("userPwd", userPwd);
-
-            logger.debug(inputParam.toString());
             responseResult= loginService.checkUser(inputParam);
             logger.info(responseResult.toString());
 
@@ -80,17 +103,15 @@ public class LoginController {
                 responseResult.setBody(userSession);
             }
         }
-        else if(loginKind.equals("02")){
-            ;
-        }
-        else if(loginKind.equals("03")){
+        else if(loginType.equals("02")){
             ;
         }
         else{
-            logger.error("Login Type Error, Check Properties File. \n [Login Kind : " + loginKind +"]");
+            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType +" " + loginTypeText +" is not allowed]");
             responseResult.setStatus(Globals.RESULT_FAIL);
-            responseResult.setMsg("Login Type Error");
+            responseResult.setMsg("Login Type "+ loginType + " " + loginTypeText + "is not allowed");
         }
+
         return responseResult;
     }
 

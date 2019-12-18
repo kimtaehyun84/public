@@ -13,21 +13,79 @@ package com.common.system.utils;
  *  2019-10-31       ||  taehyun.kim       ||  신규 생성
  * ========================================================================
  */
+import com.common.business.common.bean.Globals;
 import com.common.system.service.UtilServiceImpl;
+
+
+
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StringUtils {
 
     public static final int IDEOGRAPHIC_SPACE = 12288;
     public static final int MAX_BUFFER_SIZE = 8192;
 
+
+
     public StringUtils(){
 
     }
+
+
+
+    public static JSONArray stringToJsonArray(String jsonString){
+        Object obj = null;
+        JSONArray jsonArray = null;
+        JSONParser jsonParser = new JSONParser();
+        try{
+            obj = jsonParser.parse(jsonString);
+            jsonArray = (JSONArray) obj;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return  jsonArray;
+    }
+
+
+
+    public static JSONObject stringToJson(String jsonString){
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = null;
+        try{
+            jsonObject = (JSONObject) jsonParser.parse(jsonString);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return jsonObject;
+
+    }
+    public static HashMap<String,Object> jsonToMap(JSONObject jsonObject){
+        HashMap <String,Object> resultMap = null;
+        try{
+            resultMap = new ObjectMapper().readValue(jsonObject.toJSONString(), HashMap.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
+
 
     public static boolean isEmpty(CharSequence cs){
         return cs == null || cs.length() == 0;

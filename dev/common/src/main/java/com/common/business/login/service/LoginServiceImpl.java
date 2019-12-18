@@ -1,11 +1,12 @@
-package com.hyosung.common.business.login.service;
+package com.common.business.login.service;
 
-import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.business.common.service.CommonService;
-import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.business.login.dao.LoginDAO;
+import com.common.business.common.bean.Globals;
+import com.common.business.common.service.CommonService;
+import com.common.business.common.vo.ResponseResultVO;
+import com.common.business.login.dao.LoginDAO;
 import com.common.system.service.SecurityService;
 import com.common.system.service.UtilService;
+import com.common.system.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 /**
 ********************************************************
-    *@Package : com.hyosung.common.business.login.service
+    *@Package : com.common.business.login.service
     *@FileName : LoginServiceImpl
     *@Version :
     *@Date : 2019-04-16
@@ -60,7 +61,7 @@ public class LoginServiceImpl implements LoginService{
 
         userInfo = loginDAO.selectUserInfo(inputParam);
 
-        if (userInfo.size() > 0) { //user 정보가 있는 경우
+        if (userInfo != null && userInfo.size() > 0) { //user 정보가 있는 경우
             logger.debug(userInfo.toString());
             String userNo = userInfo.get("USER_NO").toString();
             String salt = userInfo.get("SALT").toString();
@@ -72,7 +73,10 @@ public class LoginServiceImpl implements LoginService{
             int failedCount = Integer.parseInt(userInfo.get("FAILED_COUNT").toString());
             String locked = userInfo.get("LOCKED").toString();
             String passwordModifyDate = userInfo.get("PASSWORD_MODIFY_DATE").toString();
-            boolean passwordExpired = utilService.getTimeDiffByDay(passwordModifyDate, "yyyy-MM-dd") >  0 ? true : false;
+            long timeDiff = DateUtils.getDateDiffByDay(passwordModifyDate,"yyyy-MM-dd");
+            long passwordExpirePolicy = 90;
+            boolean passwordExpired =  timeDiff > passwordExpirePolicy ? true : false;
+
 
 
             logger.info("User Info exist");
@@ -84,6 +88,7 @@ public class LoginServiceImpl implements LoginService{
             } else {
                 // password 일치하는 경우
                 if (userInfo.get("USER_PWD").equals(userPwd)) {
+                    logger.info("Time Diff : " + timeDiff);
                     if(passwordExpired){
                         responseResult.setStatus(Globals.RESULT_FAIL);
                         responseResult.setMsg(Globals.ERROR_MSG_PWD_EXPIRED);
@@ -120,7 +125,7 @@ public class LoginServiceImpl implements LoginService{
                         commonService.insertAccessLog(userNo,"Login Fail, User ID has locked");
                     }
                     logger.info("Update failed Count and locked");
-                    newInputParam.put("uesrNo",userNo);
+                    newInputParam.put("userNo",userNo);
                     newInputParam.put("failedCount", failedCount);
                     newInputParam.put("locked", locked);
                     logger.debug(newInputParam.toString());

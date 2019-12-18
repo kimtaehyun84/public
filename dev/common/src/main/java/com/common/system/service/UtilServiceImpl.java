@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @Package : com.hyosung.common.system.utils.service
+ * @Package : com.common.system.utils.service
  * @FileName : UtilServiceImpl
  * @Version : 1.0
  * @Date : 2019-04-16

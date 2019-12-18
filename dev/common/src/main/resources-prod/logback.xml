@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+    <!-- Appenders -->
+
+
+    <property resource="props/common.properties" />
+
+
+
+
+    <!-- ${property:-defaultValue} -->
+    <property name="log.home" value="${log.home:-/logs/app}" />
+    <property name="log.pattern" value="${log.pattern:-[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-41c{1}:%4L]│%X{GID}│%msg%n}" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="dailyout" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="/home/logs/monicommon/dailyout.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p%d{yyyy-MM-dd HH:mm:ss, SSS}: %c - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <appender name="sqlAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.home}/sql/sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/sql/sql.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>${log.maxHistoryDate}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.home}/error/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>${log.maxHistoryDate}</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="com.common.prehandler.interceptor.MybatisLogInterceptor" level ="DEBUG">
+        <appender-ref ref = "sqlAppender"></appender-ref>
+        <appender-ref ref = "errorAppender"></appender-ref>
+    </logger>
+
+    <!-- Application Loggers -->
+    <logger name="com.hyosung.common">
+        <level value="DEBUG" />
+    </logger>
+
+    <!-- 3rdparty Loggers -->
+    <logger name="org.springframework.core">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="org.springframework.context">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="info" />
+    </logger>
+
+    <!-- Root Logger -->
+    <root>
+        <priority value="DEBUG" />
+        <appender-ref ref="console" />
+    </root>
+
+</configuration>

@@ -10,6 +10,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 <fmt:formatDate var="datetime" pattern="yyyyMMDDHHmmss" value="${now}"/>
+<%
+    String publicExponent = request.getAttribute("publicExponent").toString();
+    String publicModulus = request.getAttribute("publicModulus").toString();
+
+%>
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +22,8 @@
     <!-- 현재 webpage의 context path 자동 설정 -->
     <script type="text/javascript" charset="utf-8">
         sessionStorage.setItem("contextPath", "${pageContext.request.contextPath}");
+        sessionStorage.setItem("publicModulus", "${publicModulus}");
+        sessionStorage.setItem("publicExponent","${publicExponent}");
     </script>
 
     <meta charset="utf-8">

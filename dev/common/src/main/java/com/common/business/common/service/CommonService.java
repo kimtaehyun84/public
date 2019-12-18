@@ -1,8 +1,10 @@
-package com.hyosung.common.business.common.service;
+package com.common.business.common.service;
 
+
+import java.util.Map;
 
 /**
- * @Package  : com.hyosung.common.business.common.service
+ * @Package  : com.common.business.common.service
  * @FileName : CommonService
  * @Version : 1.0
  * @Date : 2019-06-21
@@ -16,4 +18,6 @@ package com.hyosung.common.business.common.service;
 
 public interface CommonService {
     void insertAccessLog(String userNo, String transactionName) throws Exception;
+
+    Map<String, Object> selectServerConfig(String type) throws Exception;
 }

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hyosung.common.prehandler.filter;
+package com.common.prehandler.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,21 +34,21 @@ import java.io.IOException;
  */
 //@WebFilter(filterName = "HSTSFilter", urlPatterns = {"/*"})
 public class HSTSFilter implements Filter {
-	
+
 	private static Logger log = LoggerFactory.getLogger(HSTSFilter.class);
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-    	
+
     }
-    
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        
+
     	log.info("Strict-Transport-Security header added to response");
 
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        
+
         if(servletRequest.isSecure()){
         	response.addHeader("Strict-Transport-Security", "max-age=31556926; includeSubDomains");
         }
@@ -58,9 +58,9 @@ public class HSTSFilter implements Filter {
 
         filterChain.doFilter(servletRequest, response);
     }
-    
+
     @Override
     public void destroy() {
-    	
+
     }
 }

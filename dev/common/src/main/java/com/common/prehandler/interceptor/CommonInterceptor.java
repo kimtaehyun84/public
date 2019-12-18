@@ -1,4 +1,4 @@
-package com.hyosung.common.prehandler.interceptor;
+package com.common.prehandler.interceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

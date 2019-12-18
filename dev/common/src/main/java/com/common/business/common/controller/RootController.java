@@ -1,18 +1,24 @@
-package com.hyosung.common.business.common.controller;
+package com.common.business.common.controller;
 
-import com.hyosung.common.business.session.service.SessionService;
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.common.bean.Config;
+import com.common.business.session.service.SessionService;
+import com.common.business.session.vo.UserSessionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -42,14 +48,30 @@ public class RootController {
     @Resource(name = "sessionService")
     private SessionService sessionService;
 
+    @Autowired
+    public Config config;
+
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) {
+    public String home(Locale locale, Model model) throws IOException {
+        ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
+
+        HttpServletRequest request = attr.getRequest();
+        HttpServletResponse response = attr.getResponse();
+        if(!"Y".equals(Config.getLoginEnable())){
+            response.sendError(406);
+        }
+
+
         logger.info("Welcome home! The client locale is {}.", locale);
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         sessionService.removeAllSession(request);
+        String publicExponent = config.getPublicKeyExponent();
+        String publicModulus = config.getPublicKeyModulus();
+        request.setAttribute("publicExponent", publicExponent);
+        request.setAttribute("publicModulus", publicModulus);
+
         Date date = new Date();
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 

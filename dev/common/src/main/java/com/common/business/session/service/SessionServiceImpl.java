@@ -1,7 +1,7 @@
-package com.hyosung.common.business.session.service;
+package com.common.business.session.service;
 
-import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.common.bean.Globals;
+import com.common.business.session.vo.UserSessionVO;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

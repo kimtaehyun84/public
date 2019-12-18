@@ -1,6 +1,6 @@
-package com.hyosung.common.business.common.vo;
+package com.common.business.common.vo;
 
-import com.hyosung.common.business.common.bean.Globals;
+import com.common.business.common.bean.Globals;
 
 /**
  * @Package  : common.hyosung.common.business.common.vo

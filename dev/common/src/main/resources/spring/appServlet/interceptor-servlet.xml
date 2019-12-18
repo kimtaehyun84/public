@@ -11,7 +11,7 @@
     <interceptors>
         <interceptor>
             <mapping path="/**"/>
-            <beans:bean id="commonInterceptor" class="com.hyosung.common.prehandler.interceptor.CommonInterceptor"/>
+            <beans:bean id="commonInterceptor" class="com.common.prehandler.interceptor.CommonInterceptor"/>
         </interceptor>
 
       <!--  <interceptor>
@@ -26,7 +26,7 @@
         <beans:property name="order" value="0"/>
     </beans:bean>
 
-    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+
 
 
 </beans:beans>

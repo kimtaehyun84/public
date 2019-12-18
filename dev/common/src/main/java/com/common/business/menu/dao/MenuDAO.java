@@ -1,6 +1,6 @@
-package com.hyosung.common.business.menu.dao;
+package com.common.business.menu.dao;
 
-import com.hyosung.common.business.common.dao.AbstractDAO;
+import com.common.business.common.dao.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

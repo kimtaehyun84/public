@@ -1,10 +1,10 @@
-package com.hyosung.common.prehandler.interceptor;
+package com.common.prehandler.interceptor;
 
 
-import com.hyosung.common.business.common.bean.Globals;
-import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.business.session.service.SessionService;
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.common.bean.Globals;
+import com.common.business.common.vo.ResponseResultVO;
+import com.common.business.session.service.SessionService;
+import com.common.business.session.vo.UserSessionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;

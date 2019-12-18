@@ -1,4 +1,4 @@
-package com.hyosung.common.prehandler.filter;
+package com.common.prehandler.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

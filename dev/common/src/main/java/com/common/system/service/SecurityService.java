@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
- * @Package : com.hyosung.common.system.utils.service
+ * @Package : com.common.system.utils.service
  * @FileName : SecurityService
  * @Version : 1.0
  * @Date : 2019-04-16

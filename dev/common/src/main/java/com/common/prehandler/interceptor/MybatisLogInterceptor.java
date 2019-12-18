@@ -166,7 +166,7 @@ public class MybatisLogInterceptor implements  Interceptor {
     }
 
     private static String getSqlId(StatementHandler statementHandler) throws Exception{
-        Field delegateField = RoutingStatementHandler.class.getDeclaredField("delegaste");
+        Field delegateField = RoutingStatementHandler.class.getDeclaredField("delegate");
         delegateField.setAccessible(true);
         Object objHandler = delegateField.get(statementHandler);
         Field mappedStatementField = BaseStatementHandler.class.getDeclaredField("mappedStatement");

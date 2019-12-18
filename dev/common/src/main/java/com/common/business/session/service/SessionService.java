@@ -1,6 +1,6 @@
-package com.hyosung.common.business.session.service;
+package com.common.business.session.service;
 
-import com.hyosung.common.business.session.vo.UserSessionVO;
+import com.common.business.session.vo.UserSessionVO;
 
 import javax.servlet.http.HttpServletRequest;
 

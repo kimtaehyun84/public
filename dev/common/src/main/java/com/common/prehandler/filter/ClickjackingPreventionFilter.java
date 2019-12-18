@@ -1,4 +1,4 @@
-package com.hyosung.common.prehandler.filter;
+package com.common.prehandler.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +13,12 @@ public class ClickjackingPreventionFilter implements Filter {
 	private String xFrameOptionMode = "DENY";
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse)response;
-        res.addHeader("X-FRAME-OPTIONS", xFrameOptionMode );   
+        res.addHeader("X-FRAME-OPTIONS", xFrameOptionMode );
         chain.doFilter(request, response);
     }
     public void destroy() {
     }
-     
+
     public void init(FilterConfig filterConfig) {
     	/*String propertyFile = filterConfig.getInitParameter("propertyFile");
     	log.info(String.format("Web.xml property file:[%s]", propertyFile));
@@ -33,8 +33,8 @@ public class ClickjackingPreventionFilter implements Filter {
 		Object mode = props.get("xFrame.option.mode");
 		this.xFrameOptionMode = mode.toString();
 		log.info(String.format("Web.xml xFrameOptionMode:[%s]", this.xFrameOptionMode));*/
-		
+
     }
-	
+
 
 }

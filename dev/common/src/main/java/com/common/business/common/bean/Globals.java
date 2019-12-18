@@ -1,4 +1,4 @@
-package com.hyosung.common.business.common.bean;
+package com.common.business.common.bean;
 
 /**
  * @Package  : common.hyosung.common.business.common.vo
@@ -38,6 +38,16 @@ public class Globals {
     /** Sha 256 repeat count */
     public static final String SHA_REPEAT_COUNT = "40";
     public static final String SALT_REPEAT_COUNT = "40";
+
+
+    public static final String TYPE_JSON = "JSON";
+    public static final String TYPE_JSONARRAY = "JSONARRAY";
+    public static final String TYPE_STRING = "STRING";
+    public static final String TYPE_INTEGER = "INTEGER";
+    public static final String TYPE_MAP = "MAP";
+    public static final String TYPE_OBJECT = "OBJECT";
+
+
 
 
 }

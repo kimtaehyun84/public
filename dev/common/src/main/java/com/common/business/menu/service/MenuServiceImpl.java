@@ -1,8 +1,8 @@
-package com.hyosung.common.business.menu.service;
+package com.common.business.menu.service;
 
-import com.hyosung.common.business.common.service.CommonService;
-import com.hyosung.common.business.common.vo.ResponseResultVO;
-import com.hyosung.common.business.menu.dao.MenuDAO;
+import com.common.business.common.service.CommonService;
+import com.common.business.common.vo.ResponseResultVO;
+import com.common.business.menu.dao.MenuDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * @Package  : com.hyosung.common.business.menu.service
+ * @Package  : com.common.business.menu.service
  * @FileName : MenuServiceImpl
  * @Version : 1.0
  * @Date : 2019-06-21
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService{
     * @Date : 2019-06-21
     * @Author : Taehyun Kim
     * @Param : [inputParam]
-    * @Return : com.hyosung.common.business.common.vo.ResponseResultVO
+    * @Return : com.common.business.common.vo.ResponseResultVO
     * @Description : menu list를 불러옴
     * ========================================================================
     *  Date              ||  Name              ||  Descripton

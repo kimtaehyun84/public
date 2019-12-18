@@ -1,4 +1,4 @@
-package com.hyosung.common.business.common.dao;
+package com.common.business.common.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @Package : com.hyosung.common.business.common.dao
+ * @Package : com.common.business.common.dao
  * @FileName :AbstractDAO
  * @Version : 1.0
  * @Date : 2019-04-11
@@ -21,6 +21,10 @@ public class AbstractDAO {
 
     @Autowired
     private SqlSessionTemplate sqlSession;
+
+    public void setSqlSession(SqlSessionTemplate sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 
     private void addQueryLog(String queryType, String queryId){
         if(logger.isDebugEnabled()){

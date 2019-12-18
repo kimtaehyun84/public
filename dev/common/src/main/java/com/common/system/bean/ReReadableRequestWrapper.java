@@ -1,17 +1,30 @@
 package com.common.system.bean;
 
+
+
+import org.springframework.util.StringUtils;
+
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-public class RequestWrapper extends HttpServletRequestWrapper {
+public class ReReadableRequestWrapper extends HttpServletRequestWrapper {
 
+	private final Charset encoding;
+	private byte[] rawData;
 	private final String body;
 
-	public RequestWrapper(HttpServletRequest request) throws IOException {
+	public ReReadableRequestWrapper(HttpServletRequest request) throws IOException {
 
 		super(request);
+		String characterEncoding = request.getCharacterEncoding();
+		if(StringUtils.isEmpty(characterEncoding)){
+			characterEncoding = StandardCharsets.UTF_8.name();
+		}
+		this.encoding = Charset.forName(characterEncoding);
 
 		StringBuilder stringBuilder = new StringBuilder();
 

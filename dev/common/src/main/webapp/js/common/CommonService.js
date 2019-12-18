@@ -27,7 +27,26 @@ myApp.factory('CommonService',
               }
             },
             post: function (url, inputParam) {
-                return $http.post(contextPath + url, inputParam);
+                console.log(inputParam);
+                var plainParam = {
+                    isEncrypt : 0,
+                    param : JSON.stringify(inputParam)
+                }
+                return $http.post(contextPath + url, plainParam);
+            },
+
+            securePost : function(url, inputParam){
+                console.log(inputParam);
+                var config = {
+                    method : 'POST',
+                    url : contextPath + url,
+                    data : encryptByRSA(JSON.stringify(inputParam)),
+                    headers : {
+                        isEncrypted : true
+                    }
+
+                }
+                return $http(config);
             }
         }
         return result;

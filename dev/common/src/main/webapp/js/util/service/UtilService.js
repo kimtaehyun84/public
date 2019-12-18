@@ -7,16 +7,21 @@
  * @Author : Taehyun Kim
  * @Description : RSA PublicKey 전달
  */
-var encryptByRSA = function(plainText,rsaPublicKeyModulus, rsaPublicKeyExponent){
+var rsaPublicKeyModulus = sessionStorage.getItem("publicModulus");
+var rsaPublicKeyExponent = sessionStorage.getItem("publicExponent");
+
+var encryptByRSA = function(plainText){
+
     let rsa = new RSAKey();
     rsa.setPublic(rsaPublicKeyModulus, rsaPublicKeyExponent);
     let encryptText = rsa.encrypt(plainText);
+
     rsa = null;
 
     return encryptText;
 }
 
-var encryptMapByRSA = function(inputParam, publicKeyModulus, publicKeyExponent ){
+var encryptMapByRSA = function(inputParam){
     let keys = Object.keys(inputParam);
     for (let i = 0; i < keys.length; i++) {
         inputParam[keys[i]] = encryptByRSA(inputParam[keys[i]], publicKeyModulus, publicKeyExponent);

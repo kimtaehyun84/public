@@ -3,7 +3,7 @@ package com.common.system.service;
 import java.util.Date;
 
 /**
- * @Package : com.hyosung.common.system.utils.service
+ * @Package : com.common.system.utils.service
  * @FileName : UtilService
  * @Version : 1.0
  * @Date : 2019-04-16
