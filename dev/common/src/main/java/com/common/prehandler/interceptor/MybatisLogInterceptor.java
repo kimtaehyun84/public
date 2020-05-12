@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 /**
- * @Package  : com.common.prehandler.interceptor
+ * @Package : com.common.prehandler.interceptor
  * @FileName : MybatisLogInterceptor
  * @Version : 1.0
  * @Date : 2019-10-24
@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
  * @Description :
  * ========================================================================
  * Date              ||  Name              ||  Descripton
- *  2019-10-24       ||  taehyun.kim       ||  신규 생성
+ * 2019-10-24       ||  taehyun.kim       ||  신규 생성
  * ========================================================================
  */
 
@@ -51,7 +51,7 @@ import java.util.regex.Matcher;
 )})
 
 
-public class MybatisLogInterceptor implements  Interceptor {
+public class MybatisLogInterceptor implements Interceptor {
 
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -71,22 +71,21 @@ public class MybatisLogInterceptor implements  Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
 
 
-        if(this.logger.isDebugEnabled()){
+        if (this.logger.isDebugEnabled()) {
             return this.printLog(invocation);
-        }
-        else{
+        } else {
             this.startTime = System.currentTimeMillis();
             Object result = invocation.proceed();
             this.endTime = System.currentTimeMillis();
             this.execTime = this.endTime - this.startTime;
-            this.execTimeSec = (double)this.execTime / 1000.0D;
+            this.execTimeSec = (double) this.execTime / 1000.0D;
             return result;
         }
 
     }
 
     @Override
-    public Object plugin(Object target){
+    public Object plugin(Object target) {
         return Plugin.wrap(target, this);
     }
 
@@ -111,17 +110,17 @@ public class MybatisLogInterceptor implements  Interceptor {
                 String propValue;
                 if (param instanceof Map) {
                     parameterMappings = boundSql.getParameterMappings();
-                    Map<String, ?> mParam = (Map)param;
+                    Map<String, ?> mParam = (Map) param;
                     i$ = parameterMappings.iterator();
 
-                    while(i$.hasNext()) {
-                        parameterMapping = (ParameterMapping)i$.next();
+                    while (i$.hasNext()) {
+                        parameterMapping = (ParameterMapping) i$.next();
                         propValue = parameterMapping.getProperty();
                         Object value;
                         if (mParam.containsKey(propValue)) {
                             value = mParam.get(propValue);
                             if (value instanceof String) {
-                                sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement((String)value) + "'");
+                                sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement((String) value) + "'");
                             } else if (value == null) {
                                 sql = sql.replaceFirst("\\?", "{" + propValue + "=NULL}");
                             } else {
@@ -130,7 +129,7 @@ public class MybatisLogInterceptor implements  Interceptor {
                         } else {
                             value = boundSql.getAdditionalParameter(propValue);
                             if (value instanceof String) {
-                                sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement((String)value) + "'");
+                                sql = sql.replaceFirst("\\?", "'" + Matcher.quoteReplacement((String) value) + "'");
                             } else if (value == null) {
                                 sql = sql.replaceFirst("\\?", "{" + propValue + "=NULL}");
                             } else {
@@ -144,8 +143,8 @@ public class MybatisLogInterceptor implements  Interceptor {
                     this.logger.debug("paramClass.getName(); : {}", paramClass.getName());
                     i$ = parameterMappings.iterator();
 
-                    while(i$.hasNext()) {
-                        parameterMapping = (ParameterMapping)i$.next();
+                    while (i$.hasNext()) {
+                        parameterMapping = (ParameterMapping) i$.next();
                         propValue = parameterMapping.getProperty();
                         Field field = paramClass.getDeclaredField(propValue);
                         field.setAccessible(true);
@@ -165,20 +164,20 @@ public class MybatisLogInterceptor implements  Interceptor {
         return sql;
     }
 
-    private static String getSqlId(StatementHandler statementHandler) throws Exception{
+    private static String getSqlId(StatementHandler statementHandler) throws Exception {
         Field delegateField = RoutingStatementHandler.class.getDeclaredField("delegate");
         delegateField.setAccessible(true);
         Object objHandler = delegateField.get(statementHandler);
         Field mappedStatementField = BaseStatementHandler.class.getDeclaredField("mappedStatement");
         mappedStatementField.setAccessible(true);
-        MappedStatement mappedStatement = (MappedStatement)mappedStatementField.get(objHandler);
+        MappedStatement mappedStatement = (MappedStatement) mappedStatementField.get(objHandler);
         return mappedStatement.getId();
     }
 
-    private Object printLog(Invocation invocation) throws Throwable{
+    private Object printLog(Invocation invocation) throws Throwable {
 
         Object result = null;
-        StatementHandler handler = (StatementHandler)invocation.getTarget();
+        StatementHandler handler = (StatementHandler) invocation.getTarget();
         String sqlId = getSqlId(handler);
         String methodName = invocation.getMethod().getName();
 
@@ -187,7 +186,7 @@ public class MybatisLogInterceptor implements  Interceptor {
             result = invocation.proceed();
             this.endTime = System.currentTimeMillis();
             this.execTime = this.endTime - this.startTime;
-            this.execTimeSec = (double)this.execTime / 1000.0D;
+            this.execTimeSec = (double) this.execTime / 1000.0D;
 
             String sql = this.prettySql(handler);
             StringBuilder sb = new StringBuilder();
@@ -203,29 +202,28 @@ public class MybatisLogInterceptor implements  Interceptor {
             sb.append(sql);
             sb.append(Logs.LOG_NEWLINE);
             sb.append(Logs.LOG_SEP);
-            if(result != null && "query".equals(methodName) && result instanceof  List){
-                List<Map<String, ?>> listResult = (List)result;
+            if (result != null && "query".equals(methodName) && result instanceof List) {
+                List<Map<String, ?>> listResult = (List) result;
                 sb.append(Logs.LOG_NEWLINE);
                 int resultSize = listResult.size();
                 sb.append(Logs.LOG_NEWLINE);
-                if(resultSize > 0){
-                    sb.append( "Total Count : " + resultSize);
+                if (resultSize > 0) {
+                    sb.append("Total Count : " + resultSize);
                     sb.append(Logs.LOG_NEWLINE);
-                    if(listResult.get(0) instanceof Map){
-                        if(resultSize < 10){
+                    if (listResult.get(0) instanceof Map) {
+                        if (resultSize < 10) {
                             sb.append(" display " + resultSize + " Rows");
-                        }
-                        else{
+                        } else {
                             sb.append(" display First 10 Rows");
                         }
                         sb.append(Logs.LOG_NEWLINE);
                         resultSize = resultSize > 10 ? 10 : resultSize;
-                        Set<String> keySet = ((Map)listResult.get(0)).keySet();
+                        Set<String> keySet = ((Map) listResult.get(0)).keySet();
                         StringBuilder sb2 = new StringBuilder();
 
                         int ix = 0;
 
-                        for(int _max = keySet.size() * 20 + keySet.size() + 4 + 1; ix < _max; ++ix) {
+                        for (int _max = keySet.size() * 20 + keySet.size() + 4 + 1; ix < _max; ++ix) {
                             sb2.append("-");
                         }
 
@@ -236,8 +234,8 @@ public class MybatisLogInterceptor implements  Interceptor {
                         sb.append(Logs.LOG_HORIZON_SEP);
                         Iterator i$ = keySet.iterator();
 
-                        while(i$.hasNext()){
-                            String key = (String)i$.next();
+                        while (i$.hasNext()) {
+                            String key = (String) i$.next();
                             sb.append(StringUtils.rightPad(StringUtils.rightTrim(key, "", 20), 20, ' '));
                             sb.append(Logs.LOG_HORIZON_SEP);
                         }
@@ -246,14 +244,14 @@ public class MybatisLogInterceptor implements  Interceptor {
                         sb.append(sb2);
                         sb.append(Logs.LOG_NEWLINE);
 
-                        for(ix = 0; ix < resultSize; ++ix){
-                            Map<String, Object> row = (Map)listResult.get(ix);
+                        for (ix = 0; ix < resultSize; ++ix) {
+                            Map<String, Object> row = (Map) listResult.get(ix);
                             sb.append(Logs.LOG_HORIZON_SEP);
                             sb.append(StringUtils.leftPad(String.valueOf(ix), 3, ' '));
                             sb.append(Logs.LOG_HORIZON_SEP);
                             i$ = keySet.iterator();
 
-                            while(i$.hasNext()){
+                            while (i$.hasNext()) {
                                 String key = (String) i$.next();
                                 sb.append(StringUtils.rightPad(StringUtils.rightTrim(String.valueOf(row.get(key)), "", 20), 20, ' '));
                                 sb.append(Logs.LOG_HORIZON_SEP);
@@ -271,8 +269,7 @@ public class MybatisLogInterceptor implements  Interceptor {
             sb.append(Logs.LOG_END);
             this.logger.debug(sb.toString());
             return result;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             this.execTime = 0L;
             String sql = this.prettySql(handler);
             StringBuilder sb = new StringBuilder();

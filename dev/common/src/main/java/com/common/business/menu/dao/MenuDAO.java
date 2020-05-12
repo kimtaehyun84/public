@@ -9,7 +9,7 @@ import java.util.List;
 @Repository("menuDAO")
 public class MenuDAO extends AbstractDAO {
 
-    public List<HashMap<String,Object>> getMenuList(HashMap<String, Object> map) throws Exception{
+    public List<HashMap<String, Object>> getMenuList(HashMap<String, Object> map) throws Exception {
         return selectList("menu.selectMenuInfo", map);
     }
 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Package  : common.hyosung.common.prehandler.interceptor
+ * @Package : common.hyosung.common.prehandler.interceptor
  * @FileName :CommonInterceptor
  * @Version : 1.0
  * @Date : 2019-04-08
@@ -19,10 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 public class CommonInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if(logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.debug("================= START =================");
             logger.debug("Request URI \t: " + request.getRequestURI());
         }
@@ -31,7 +32,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if(logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.debug("================ END ===================");
         }
         super.postHandle(request, response, handler, modelAndView);

@@ -6,43 +6,42 @@ myApp.controller('sessionCtrl', [
     '$window',
     'CommonService',
     'SessionService',
-     function ($rootScope, $scope, $q,$http, $window,  CommonService, SessionService, LoginService) {
+    function ($rootScope, $scope, $q, $http, $window, CommonService, SessionService, LoginService) {
         var contextPath = CommonService.getContextPath();
 
-        $scope.logout = function(){
+        $scope.logout = function () {
             var inputParam = {
-                userId : SessionService.get("userId")
+                userId: SessionService.get("userId")
             }
             $scope.loadingView = true;
             CommonService.post('/logout', inputParam)
-            .then(
-                function onSuccess(response){
-                    let data = response.data;
-                    if(data.status="SUCCESS"){
-                        SessionService.destroy();
-                        $window.location.href = contextPath;
+                .then(
+                    function onSuccess(response) {
+                        let data = response.data;
+                        if (data.status = "SUCCESS") {
+                            SessionService.destroy();
+                            $window.location.href = contextPath;
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    function onError(response) {
+                        let data = response.data;
+                        console.log(data);
+                        alert("Network Error Please Contact Manager");
                     }
-                    else{
-                        alert(data.msg);
-                    }
-                },
-                function onError(response){
-                    let data = response.data;
-                    console.log(data);
-                    alert("Network Error Please Contact Manager");
-                }
-            )
+                )
         }
 
-        $scope.getSession = function(key){
+        $scope.getSession = function (key) {
             return SessionService.get(key);
         }
 
-        $scope.setSession = function(key, value){
+        $scope.setSession = function (key, value) {
             return SessionService.set(key, value);
         }
 
-        $scope.destroySession = function(){
+        $scope.destroySession = function () {
             return SessionService.destroy();
         }
     }

@@ -9,13 +9,15 @@ import java.io.IOException;
 
 
 public class ClickjackingPreventionFilter implements Filter {
-	private static Logger log = LoggerFactory.getLogger(ClickjackingPreventionFilter.class);
-	private String xFrameOptionMode = "DENY";
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse res = (HttpServletResponse)response;
-        res.addHeader("X-FRAME-OPTIONS", xFrameOptionMode );
+    private static Logger log = LoggerFactory.getLogger(ClickjackingPreventionFilter.class);
+    private String xFrameOptionMode = "DENY";
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse res = (HttpServletResponse) response;
+        res.addHeader("X-FRAME-OPTIONS", xFrameOptionMode);
         chain.doFilter(request, response);
     }
+
     public void destroy() {
     }
 

@@ -26,44 +26,44 @@ public class AbstractDAO {
         this.sqlSession = sqlSession;
     }
 
-    private void addQueryLog(String queryType, String queryId){
-        if(logger.isDebugEnabled()){
+    private void addQueryLog(String queryType, String queryId) {
+        if (logger.isDebugEnabled()) {
             logger.debug("[SQL] Query Type : " + queryType + "  Query ID : " + queryId);
         }
     }
 
-    public int insert(String queryId, Object params){
-        addQueryLog("insert",queryId);
-        return sqlSession.insert(queryId,params);
+    public int insert(String queryId, Object params) {
+        addQueryLog("insert", queryId);
+        return sqlSession.insert(queryId, params);
     }
 
-    public int update(String queryId, Object params){
-        addQueryLog("update",queryId);
-        return  sqlSession.update(queryId, params);
+    public int update(String queryId, Object params) {
+        addQueryLog("update", queryId);
+        return sqlSession.update(queryId, params);
     }
 
-    public int delete(String queryId, Object params){
-        addQueryLog("delete",queryId);
-        return  sqlSession.delete(queryId, params);
+    public int delete(String queryId, Object params) {
+        addQueryLog("delete", queryId);
+        return sqlSession.delete(queryId, params);
     }
 
-    public HashMap<String,Object> selectOne(String queryId, Object params){
-        addQueryLog("select one",queryId);
-        return  sqlSession.selectOne(queryId, params);
-    }
-
-    public HashMap<String,Object> selectOne(String queryId){
+    public HashMap<String, Object> selectOne(String queryId, Object params) {
         addQueryLog("select one", queryId);
-        return  sqlSession.selectOne(queryId);
+        return sqlSession.selectOne(queryId, params);
     }
 
-    public List<HashMap<String,Object>> selectList(String queryId){
-        addQueryLog("select list", queryId);
-        return  sqlSession.selectList(queryId);
+    public HashMap<String, Object> selectOne(String queryId) {
+        addQueryLog("select one", queryId);
+        return sqlSession.selectOne(queryId);
     }
 
-    public List<HashMap<String,Object>> selectList(String queryId, Object params){
+    public List<HashMap<String, Object>> selectList(String queryId) {
         addQueryLog("select list", queryId);
-        return  sqlSession.selectList(queryId, params);
+        return sqlSession.selectList(queryId);
+    }
+
+    public List<HashMap<String, Object>> selectList(String queryId, Object params) {
+        addQueryLog("select list", queryId);
+        return sqlSession.selectList(queryId, params);
     }
 }

@@ -35,7 +35,7 @@ import java.util.Locale;
 @Controller
 public class RootController {
 
-    private static final Logger logger  = LoggerFactory.getLogger(RootController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 
     /**
      * @Name: home
@@ -52,14 +52,13 @@ public class RootController {
     public Config config;
 
 
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Locale locale, Model model) throws IOException {
-        ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
         HttpServletRequest request = attr.getRequest();
         HttpServletResponse response = attr.getResponse();
-        if(!"Y".equals(Config.getLoginEnable())){
+        if (!"Y".equals(Config.getLoginEnable())) {
             response.sendError(406);
         }
 
@@ -77,7 +76,7 @@ public class RootController {
 
         String formattedDate = dateFormat.format(date);
 
-        model.addAttribute("serverTime", formattedDate );
+        model.addAttribute("serverTime", formattedDate);
 
         return "login";
     }
@@ -92,7 +91,7 @@ public class RootController {
      */
 
     @RequestMapping(value = "/goMain", method = {RequestMethod.GET, RequestMethod.POST})
-    public String goMain(){
+    public String goMain() {
         logger.info("goMain");
         return "index";
     }

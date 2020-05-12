@@ -1,4 +1,3 @@
-
 /**
  * @Name: encryptRSA
  * @Type : Function
@@ -10,7 +9,7 @@
 var rsaPublicKeyModulus = sessionStorage.getItem("publicModulus");
 var rsaPublicKeyExponent = sessionStorage.getItem("publicExponent");
 
-var encryptByRSA = function(plainText){
+var encryptByRSA = function (plainText) {
 
     let rsa = new RSAKey();
     rsa.setPublic(rsaPublicKeyModulus, rsaPublicKeyExponent);
@@ -21,7 +20,7 @@ var encryptByRSA = function(plainText){
     return encryptText;
 }
 
-var encryptMapByRSA = function(inputParam){
+var encryptMapByRSA = function (inputParam) {
     let keys = Object.keys(inputParam);
     for (let i = 0; i < keys.length; i++) {
         inputParam[keys[i]] = encryptByRSA(inputParam[keys[i]], publicKeyModulus, publicKeyExponent);
@@ -29,10 +28,10 @@ var encryptMapByRSA = function(inputParam){
     return inputParam;
 }
 
-var encryptSha256 = function(inputParam){
+var encryptSha256 = function (inputParam) {
     let charSize = 8;
     let utfInputParam = Utf8Encode(inputParam);
-    return binb2hex(core_sha256(str2binb(utfInputParam), utfInputParam.length*charSize))
+    return binb2hex(core_sha256(str2binb(utfInputParam), utfInputParam.length * charSize))
 }
 
 
@@ -40,14 +39,14 @@ var str2binb = function (str) {
     let chrsz = 8;
     let bin = Array();
     let mask = (1 << chrsz) - 1;
-    for(let i = 0; i < str.length * chrsz; i += chrsz) {
-        bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (24 - i%32);
+    for (let i = 0; i < str.length * chrsz; i += chrsz) {
+        bin[i >> 5] |= (str.charCodeAt(i / chrsz) & mask) << (24 - i % 32);
     }
     return bin;
 }
 
 var Utf8Encode = function (string) {
-    string = string.replace(/\r\n/g,"\n");
+    string = string.replace(/\r\n/g, "\n");
     var utftext = "";
 
     for (var n = 0; n < string.length; n++) {
@@ -56,12 +55,10 @@ var Utf8Encode = function (string) {
 
         if (c < 128) {
             utftext += String.fromCharCode(c);
-        }
-        else if((c > 127) && (c < 2048)) {
+        } else if ((c > 127) && (c < 2048)) {
             utftext += String.fromCharCode((c >> 6) | 192);
             utftext += String.fromCharCode((c & 63) | 128);
-        }
-        else {
+        } else {
             utftext += String.fromCharCode((c >> 12) | 224);
             utftext += String.fromCharCode(((c >> 6) & 63) | 128);
             utftext += String.fromCharCode((c & 63) | 128);
@@ -76,24 +73,23 @@ var binb2hex = function (binarray) {
     var hexcase = 0;
     var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
     var str = "";
-    for(var i = 0; i < binarray.length * 4; i++) {
-        str += hex_tab.charAt((binarray[i>>2] >> ((3 - i%4)*8+4)) & 0xF) +
-            hex_tab.charAt((binarray[i>>2] >> ((3 - i%4)*8  )) & 0xF);
+    for (var i = 0; i < binarray.length * 4; i++) {
+        str += hex_tab.charAt((binarray[i >> 2] >> ((3 - i % 4) * 8 + 4)) & 0xF) +
+            hex_tab.charAt((binarray[i >> 2] >> ((3 - i % 4) * 8)) & 0xF);
     }
     return str;
 }
 
 
-
 var Base64 = {
 
     // private property
-    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     // public method for encoding
-    encode : function (input) {
+    encode: function (input) {
 
-        if(input == null || input == "") return "";
+        if (input == null || input == "") return "";
 
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -124,7 +120,7 @@ var Base64 = {
         return output;
     },
 
-    decode : function (input) {
+    decode: function (input) {
         var output = "";
         var chr1, chr2, chr3;
         var enc1, enc2, enc3, enc4;
@@ -156,10 +152,10 @@ var Base64 = {
     }
 };
 
-var getReplaceTxt = function(codeData, idTxt) {
+var getReplaceTxt = function (codeData, idTxt) {
     // set replace text
-    for( var j = 0; j < codeData.length; ++j ) {
-        if( idTxt == codeData[j].codeId ) {
+    for (var j = 0; j < codeData.length; ++j) {
+        if (idTxt == codeData[j].codeId) {
             return codeData[j].codeVal1;
         }
     }
@@ -169,13 +165,13 @@ var getReplaceTxt = function(codeData, idTxt) {
  * 오늘 날짜에서 계산된 날짜 반환
  * example : getAgoDate(0,0,0) -> 오늘 날짜를 yyyy-mm-dd 형태로 반환 함
  */
-var getAgoDate = function(yyyy, mm, dd) {
+var getAgoDate = function (yyyy, mm, dd) {
     var today = new Date();
     var year = today.getFullYear();
     var month = today.getMonth();
     var day = today.getDate();
 
-    var resultDate = new Date(yyyy+year, month+mm, day+dd);
+    var resultDate = new Date(yyyy + year, month + mm, day + dd);
 
     year = resultDate.getFullYear();
     month = resultDate.getMonth() + 1;
@@ -188,7 +184,7 @@ var getAgoDate = function(yyyy, mm, dd) {
     return year + "-" + month + "-" + day;
 };
 
-var getCalDiff = function(startDt, endDt, kind) {
+var getCalDiff = function (startDt, endDt, kind) {
 
     var arr1 = startDt.split('-');
     var arr2 = endDt.split('-');
@@ -209,19 +205,19 @@ var getCalDiff = function(startDt, endDt, kind) {
     console.log("* 월수 차이 : " + parseInt(diff/currMonth) + "월");
     */
 
-    if( kind == 'D' ) {
-        return parseInt(diff/currDay);
-    } else if( kind == 'W' ) {
-        return parseInt(diff/currWeek) + 1;
-    } else if( kind == 'M' ) {
-        return parseInt(diff/currMonth) + 1;
+    if (kind == 'D') {
+        return parseInt(diff / currDay);
+    } else if (kind == 'W') {
+        return parseInt(diff / currWeek) + 1;
+    } else if (kind == 'M') {
+        return parseInt(diff / currMonth) + 1;
     }
 };
 
 /**
  * 두 날짜 기간(일) 반환
  */
-var getPeriod = function(startDt, endDt) {
+var getPeriod = function (startDt, endDt) {
     var arr1 = startDt.split('-');
     var arr2 = endDt.split('-');
     var dat1 = new Date(arr1[0], arr1[1], arr1[2]);
@@ -234,18 +230,18 @@ var getPeriod = function(startDt, endDt) {
     //var currMonth = currDay * 30;// 월 만듬
     //var currYear = currMonth * 12; // 년 만듬
 
-    return parseInt(diff/currDay);
+    return parseInt(diff / currDay);
 };
 
 /**
  * 두 날짜 기간(시간) 반환
  */
-var getTimeDiff = function(sla) {
+var getTimeDiff = function (sla) {
     var now = new Date();
     var gap = sla.getTime() - now.getTime();
     //if(gap < 0) return 0;
     // var sec_gap = gap / 1000; // 초 변환
-    var min_gap = gap / 1000 /60; // 분 변환
+    var min_gap = gap / 1000 / 60; // 분 변환
     min_gap = parseInt(min_gap) + 1; // int 형으로 변환해서 소수점 버림
     return min_gap;
 };
@@ -254,30 +250,30 @@ var getTimeDiff = function(sla) {
  * 지정 날짜에서 계산된 날짜 반환
  * example : getAgoDate('yyyy-mm-dd', 0,0,0) -> 오늘 날짜를 yyyy-mm-dd 형태로 반환 함
  */
-var getCalDate = function(setDate, yyyy, mm, dd) {
+var getCalDate = function (setDate, yyyy, mm, dd) {
 
     var dateArr = setDate.split("-");
-    var resultDate = new Date(dateArr[0], dateArr[1]-1, dateArr[2], 0, 0, 0);
+    var resultDate = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], 0, 0, 0);
 
     var resultYear = parseInt(dateArr[0]);
     var resultMonth = parseInt(dateArr[1]);
-    if( yyyy != 0 ) {
+    if (yyyy != 0) {
         resultYear += yyyy;
     }
-    if( mm != 0 ) {
+    if (mm != 0) {
         resultMonth += mm;
 
-        if( resultMonth > 12 ) {
+        if (resultMonth > 12) {
             resultYear++;
             resultMonth -= 12;
-        } else if( resultMonth < 1 ) {
+        } else if (resultMonth < 1) {
             resultYear--;
             resultMonth = 12 + resultMonth;
         }
     }
     resultDate.setDate(resultDate.getDate() + dd);
 
-    if( dd == 0 ) {
+    if (dd == 0) {
         year = resultYear + "";
         month = resultMonth;
     } else {
@@ -292,7 +288,7 @@ var getCalDate = function(setDate, yyyy, mm, dd) {
         day = "0" + day;
 
     dateStr = year + "-" + month + "-" + day;
-    while( isValidDate(dateStr) == false ) {
+    while (isValidDate(dateStr) == false) {
         day = parseInt(day) - 1;
         dateStr = year + "-" + month + "-" + day;
     }
@@ -304,31 +300,31 @@ var getCalDate = function(setDate, yyyy, mm, dd) {
  * 지정 날짜에서 계산된 날짜 반환
  * example : getAgoDate('yyyy-mm-dd', 0,0,0) -> 오늘 날짜를 yyyy-mm-dd 형태로 반환 함
  */
-var getCalDate_new = function(setDate, yyyy, mm, dd) {
+var getCalDate_new = function (setDate, yyyy, mm, dd) {
 
     var dateArr = setDate.split("-");
     //var resultDate = new Date(Date.UTC(dateArr[0], dateArr[1]-1, dateArr[2], 0, 0, 0));
-    var resultDate = new Date(dateArr[0], dateArr[1]-1, dateArr[2], 0, 0, 0);
+    var resultDate = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], 0, 0, 0);
 
     var resultYear = parseInt(dateArr[0]);
     var resultMonth = parseInt(dateArr[1]);
-    if( yyyy != 0 ) {
+    if (yyyy != 0) {
         resultYear += yyyy;
     }
-    if( mm != 0 ) {
+    if (mm != 0) {
         resultMonth += mm;
 
-        if( resultMonth > 12 ) {
+        if (resultMonth > 12) {
             resultYear++;
             resultMonth -= 12;
-        } else if( resultMonth < 1 ) {
+        } else if (resultMonth < 1) {
             resultYear--;
             resultMonth = 12 + resultMonth;
         }
     }
     resultDate.setDate(resultDate.getDate() + dd);
 
-    if( dd == 0 ) {
+    if (dd == 0) {
         year = resultYear + "";
         month = resultMonth;
     } else {
@@ -343,7 +339,7 @@ var getCalDate_new = function(setDate, yyyy, mm, dd) {
         day = "0" + day;
 
     dateStr = year + "-" + month + "-" + day;
-    while( isValidDate(dateStr) == false ) {
+    while (isValidDate(dateStr) == false) {
         day = parseInt(day) - 1;
         dateStr = year + "-" + month + "-" + day;
     }
@@ -353,12 +349,11 @@ var getCalDate_new = function(setDate, yyyy, mm, dd) {
 
 // 날짜 유효성 검사
 function isValidDate(param) {
-    try
-    {
-        param = param.replace(/-/g,'');
+    try {
+        param = param.replace(/-/g, '');
         param = param.replace(/\//g, '');
 
-        if( isNaN(param) || param.length!=8 ) {
+        if (isNaN(param) || param.length != 8) {
             return false;
         }
 
@@ -368,18 +363,18 @@ function isValidDate(param) {
 
         var dd = day / 0;
 
-        if( month<1 || month>12 ) {
+        if (month < 1 || month > 12) {
             return false;
         }
 
         var maxDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        var maxDay = maxDaysInMonth[month-1];
+        var maxDay = maxDaysInMonth[month - 1];
 
-        if( month==2 && ( year%4==0 && year%100!=0 || year%400==0 ) ) {
+        if (month == 2 && (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)) {
             maxDay = 29;
         }
 
-        if( day<=0 || day>maxDay ) {
+        if (day <= 0 || day > maxDay) {
             return false;
         }
         return true;
@@ -390,33 +385,33 @@ function isValidDate(param) {
 }
 
 // yyyymmdd 형식에 구분자를 붙여 반환
-var getDateFormat = function(val, gbn) {
-    if(val.length < 8) return val;
+var getDateFormat = function (val, gbn) {
+    if (val.length < 8) return val;
     return val.substring(0, 4) + gbn + val.substring(4, 6) + gbn + val.substring(6, val.length);
 };
 
 // yyyy-MM-dd String To Date
-var getDateData = function(dateStr) {
-    if(dateStr == null || dateStr == '') return;
+var getDateData = function (dateStr) {
+    if (dateStr == null || dateStr == '') return;
 
     var rtnDt = new Date();
     var dateArr = dateStr.split('-');
-    if(dateArr.length == 3) {
+    if (dateArr.length == 3) {
         rtnDt.setFullYear(dateArr[0], dateArr[1] - 1, dateArr[2]);
     }
     return rtnDt;
 }
 
 // 숫자 체크
-function digit_check(evt){
-    var code = evt.which?evt.which:event.keyCode;
-    if(code < 48 || code > 57){
+function digit_check(evt) {
+    var code = evt.which ? evt.which : event.keyCode;
+    if (code < 48 || code > 57) {
         return false;
     }
 }
 
 // 숫자 천단위로 끊어서 Comma 삽입
-var addComma = function(val) {
+var addComma = function (val) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
@@ -483,11 +478,11 @@ function JSONToCSVConvertor(JSONData, fileName, ShowLabel) {
         return;
     }
 
-    if( fileName == null || fileName.length == 0 ) fileName = "Report"
+    if (fileName == null || fileName.length == 0) fileName = "Report"
 
-    if(msieversion()){
-        var blob = new Blob( [ CSV ], { type: "text/csv" } );
-        navigator.msSaveOrOpenBlob( blob, fileName + ".csv" );
+    if (msieversion()) {
+        var blob = new Blob([CSV], {type: "text/csv"});
+        navigator.msSaveOrOpenBlob(blob, fileName + ".csv");
 
         /*
         var IEwindow = window.open();
@@ -521,29 +516,33 @@ function msieversion() {
 }
 
 function isNull(val) {
-    if(val == null) { return ''; }
-    else { return val };
+    if (val == null) {
+        return '';
+    } else {
+        return val
+    }
+    ;
 }
 
 
 //실수 체크
-function isNumberFloat(str){
+function isNumberFloat(str) {
     return /^[0-9]+(.[0-9]+)?$/.test(str);
 }
 
 // 정수 체크
-function isNumberInteger(str){
+function isNumberInteger(str) {
     return /^\+?(0|[1-9]\d*)$/.test(str);
 }
 
 // 비밀번호 체크함수
-function fnCheckPassword(upw){
+function fnCheckPassword(upw) {
 //	    if(!/^[a-zA-Z0-9!@#$%^&*+-./():;<=>?[\]_`{|}]{8,100}$/.test(upw)) {
 //	        alert('Password should be over 8');
 //	        return false;
 //	    }
 
-    if(upw.length<8) {
+    if (upw.length < 8) {
         alert('Password should be over 8');
         return false;
     }
@@ -552,7 +551,7 @@ function fnCheckPassword(upw){
     var chk_eng = upw.search(/[a-z]/g);
     var chk_cap = upw.search(/[A-Z]/g);
 
-    if(chk_num < 0 || chk_eng < 0 ||  chk_cap < 0) {
+    if (chk_num < 0 || chk_eng < 0 || chk_cap < 0) {
         alert('Password should be mixed letter and number and include over 1 digit capital letter');
         return false;
     }

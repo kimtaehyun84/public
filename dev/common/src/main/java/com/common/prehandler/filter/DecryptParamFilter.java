@@ -25,35 +25,33 @@ public class DecryptParamFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         /**
-        * @Name: doFilter
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-12-18
-        * @Author : Taehyun Kim
-        * @Param : [request, response, chain]
-        * @Return : void
-        * @Description : header의 isEncrypted 값을확인하여 true인 경우 복호화 한다.
-        * ========================================================================
-        *  Date              ||  Name              ||  Descripton
-        *  2019-12-18       ||  taehyun.kim       ||  신규 생성
-        * ========================================================================
-        */
+         * @Name: doFilter
+         * @Type : Function
+         * @Version : 1.0
+         * @Date : 2019-12-18
+         * @Author : Taehyun Kim
+         * @Param : [request, response, chain]
+         * @Return : void
+         * @Description : header의 isEncrypted 값을확인하여 true인 경우 복호화 한다.
+         * ========================================================================
+         *  Date              ||  Name              ||  Descripton
+         *  2019-12-18       ||  taehyun.kim       ||  신규 생성
+         * ========================================================================
+         */
         logger.info("[Pre Handler] : Decrypt Parameter Filter");
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        if("true".equals(httpServletRequest.getHeader("isEncrypted"))){
-            try{
+        if ("true".equals(httpServletRequest.getHeader("isEncrypted"))) {
+            try {
                 DecryptParamWrapper decryptParamWrapper = new DecryptParamWrapper((HttpServletRequest) request);
                 chain.doFilter(decryptParamWrapper, httpServletResponse);
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 logger.error("Exception in DecryptParamFilter " + ex);
             }
 
-        }
-        else{
+        } else {
             chain.doFilter(request, response);
         }
     }

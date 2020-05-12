@@ -22,12 +22,11 @@ public class ExceptionResolver extends SimpleMappingExceptionResolver {
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        logger.error("System Error" ,ex);
+        logger.error("System Error", ex);
         String viewName = determineViewName(ex, request);
-        if(viewName != null){
-            return getModelAndView(viewName, ex,request);
-        }
-        else{
+        if (viewName != null) {
+            return getModelAndView(viewName, ex, request);
+        } else {
             return null;
         }
     }

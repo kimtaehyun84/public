@@ -4,7 +4,7 @@ package com.common.business.common.service;
 import java.util.Map;
 
 /**
- * @Package  : com.common.business.common.service
+ * @Package : com.common.business.common.service
  * @FileName : CommonService
  * @Version : 1.0
  * @Date : 2019-06-21
@@ -12,7 +12,7 @@ import java.util.Map;
  * @Description : 공통으로 사용하는 서비스
  * ========================================================================
  * Date              ||  Name              ||  Descripton
- *  2019-06-21       ||  taehyun.kim       ||  신규 생성
+ * 2019-06-21       ||  taehyun.kim       ||  신규 생성
  * ========================================================================
  */
 

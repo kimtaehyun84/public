@@ -5,8 +5,9 @@
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-       <!-- <property name="configLocation" value="classpath:sql/sql-mapper-config.xml"/>-->
-        <property name="mapperLocations" value="classpath:sql/#{commonProperties['dbms.common.mapper.name']}/#{commonProperties['dbms.common.mapper.version']}/**/*.xml"/>
+        <!-- <property name="configLocation" value="classpath:sql/sql-mapper-config.xml"/>-->
+        <property name="mapperLocations"
+                  value="classpath:sql/#{commonProperties['dbms.common.mapper.name']}/#{commonProperties['dbms.common.mapper.version']}/**/*.xml"/>
         <property name="plugins">
             <array>
                 <bean class="com.common.prehandler.interceptor.MybatisLogInterceptor"/>
@@ -19,8 +20,8 @@
         <constructor-arg index="0" ref="sqlSession"/>
     </bean>
 
-<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.hyosung.*"/>
-    </bean>-->
+    <!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="basePackage" value="com.hyosung.*"/>
+        </bean>-->
 
 </beans>

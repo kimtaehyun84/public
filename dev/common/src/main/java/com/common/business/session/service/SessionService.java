@@ -14,11 +14,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface SessionService {
     public UserSessionVO getSession(HttpServletRequest request);
+
     public void setSession(HttpServletRequest request, String key, Object value);
+
     public void removeAllSession(HttpServletRequest request);
-
-
-
 
 
 }

@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
 <mapper namespace="login">
     <!-- user info 조회 -->
     <select id="selectUserInfo" parameterType="hashmap" resultType="hashmap">
         SELECT
-            T1.USER_NO,
-            T1.USER_GROUP_NO,
-            T1.USER_ID,
-            T1.USER_NAME,
-            T1.USER_PWD,
-            T1.SALT,
-            T1.USE_YN,
-            T1.FAILED_COUNT,
-            T1.LOCKED,
-            T1.PASSWORD_MODIFY_DATE
+        T1.USER_NO,
+        T1.USER_GROUP_NO,
+        T1.USER_ID,
+        T1.USER_NAME,
+        T1.USER_PWD,
+        T1.SALT,
+        T1.USE_YN,
+        T1.FAILED_COUNT,
+        T1.LOCKED,
+        T1.PASSWORD_MODIFY_DATE
         FROM
-            T_COM_USER T1
+        T_COM_USER T1
         WHERE
-            1=1
-            AND
-            T1.USER_ID = #{userId}
-            AND
-            T1.DISABLED = 'N'
+        1=1
+        AND
+        T1.USER_ID = #{userId}
+        AND
+        T1.DISABLED = 'N'
     </select>
 
     <!-- 비밀번호 입력 실패 횟수 업데이트 -->
     <update id="updateUserFailedCount" parameterType="hashmap">
-        UPDATE  T_COM_USER
+        UPDATE T_COM_USER
         SET
-            FAILED_COUNT = #{failedCount},
-            LOCKED       = #{locked},
-            MOD_DATE      = GETDATE(),
-            MOD_USER        = 'Administrator'
+        FAILED_COUNT = #{failedCount},
+        LOCKED = #{locked},
+        MOD_DATE = GETDATE(),
+        MOD_USER = 'Administrator'
         WHERE
-            1=1
-            AND
-            USER_NO = #{userNo}
+        1=1
+        AND
+        USER_NO = #{userNo}
     </update>
 </mapper>

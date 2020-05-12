@@ -13,10 +13,15 @@ import java.util.Date;
 public interface UtilService {
 
     public Date stringToDate(String value, String format) throws Exception;
+
     public String dateToString(Date date, String format) throws Exception;
+
     public String getNowDate(String format) throws Exception;
+
     public long getTimeDiffBySec(String value, String format) throws Exception;
+
     public long getTimeDiffByHour(String value, String format) throws Exception;
+
     public long getTimeDiffByDay(String value, String format) throws Exception;
 
 }

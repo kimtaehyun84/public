@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
+    <!-- Root Context: defines shared resources visible to all other web components -->
 
-		<bean id="commonDAO" class="com.common.business.common.dao.CommonDAO">
-			<property name="sqlSession" ref="sqlSessionTemplate"></property>
-		</bean>
+    <bean id="commonDAO" class="com.common.business.common.dao.CommonDAO">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
 
-		<bean id="commonService" class="com.common.business.common.service.CommonServiceImpl">
-			<property name="commonDAO" ref="commonDAO"/>
+    <bean id="commonService" class="com.common.business.common.service.CommonServiceImpl">
+        <property name="commonDAO" ref="commonDAO"/>
 
-		</bean>
+    </bean>
 
-		<bean id = "config" class="com.common.business.common.bean.Config" init-method="init">
-			<property name="type" value="#{commonProperties['server.type']}"/>
-			<property name="logHome" value="#{commonProperties['log.home']}"/>
-			<property name="logMaxHistoryDate" value="#{commonProperties['log.maxHistoryDate']}"/>
-			<property name="commonService" ref="commonService"/>
+    <bean id="config" class="com.common.business.common.bean.Config" init-method="init">
+        <property name="type" value="#{commonProperties['server.type']}"/>
+        <property name="logHome" value="#{commonProperties['log.home']}"/>
+        <property name="logMaxHistoryDate" value="#{commonProperties['log.maxHistoryDate']}"/>
+        <property name="commonService" ref="commonService"/>
 
-		</bean>
+    </bean>
 </beans>

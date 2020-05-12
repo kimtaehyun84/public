@@ -3,7 +3,7 @@ package com.common.business.common.vo;
 import com.common.business.common.bean.Globals;
 
 /**
- * @Package  : common.hyosung.common.business.common.vo
+ * @Package : common.hyosung.common.business.common.vo
  * @FileName : ResponseResultVO
  * @Version : 1.0
  * @Date : 2019-04-08

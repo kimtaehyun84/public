@@ -23,7 +23,7 @@
     <script type="text/javascript" charset="utf-8">
         sessionStorage.setItem("contextPath", "${pageContext.request.contextPath}");
         sessionStorage.setItem("publicModulus", "${publicModulus}");
-        sessionStorage.setItem("publicExponent","${publicExponent}");
+        sessionStorage.setItem("publicExponent", "${publicExponent}");
     </script>
 
     <meta charset="utf-8">
@@ -82,98 +82,100 @@
     </style>
 </head>
 <body ng-app="myApp" class="hold-transition login-page" ng-controller="loginCtrl">
-    <div class="login-box">
-        <div class="login-box-head">
+<div class="login-box">
+    <div class="login-box-head">
+        <div class="login-logo">
+            <%--<img src="../images/MoniPortal_Applications.png" alt="MoniSLA" width="240">--%>
+            <span style="color: #fff;">MoniSLA</span>
+            <span class="subtitle">ATM total management system</span>
+        </div>
+    </div>
+    <div class="login-box-body">
+        <h3 class="this-mg mg-t5">
             <div class="login-logo">
-                <%--<img src="../images/MoniPortal_Applications.png" alt="MoniSLA" width="240">--%>
-                <span style="color: #fff;">MoniSLA</span>
-                <span class="subtitle">ATM total management system</span>
+                <img src="<%=request.getContextPath()%>/images/SBI_logo.png" width="100" alt="">
+            </div>
+        </h3>
+        <div class="input-user-option mg-b10">
+            <input id="login.userId" type="text" class="user-control" placeholder="USER ID" ng-model="login.userId">
+            <span class="fa fa-user user-control-icon"></span>
+        </div>
+        <div class="input-user-option">
+            <input id="login.password" type="password" class="user-control" placeholder="Password"
+                   ng-model="login.userPwd" ui-keypress="{enter: 'login()'}">
+            <span class="fa fa-lock user-control-icon"></span>
+        </div>
+        <div class="login-spacing"></div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <button type="submit" class="btn bg-blue2 login-btn" ng-click="login()"><span>LOGIN</span>
+                </button>
             </div>
         </div>
-        <div class="login-box-body">
-            <h3 class="this-mg mg-t5">
-                <div class="login-logo">
-                    <img src="<%=request.getContextPath()%>/images/SBI_logo.png" width="100" alt="">
-                </div>
-            </h3>
-            <div class="input-user-option mg-b10">
-                <input id="login.userId" type="text" class="user-control" placeholder="USER ID" ng-model="login.userId">
-                <span class="fa fa-user user-control-icon"></span>
-            </div>
-            <div class="input-user-option">
-                <input id="login.password" type="password" class="user-control" placeholder="Password" ng-model="login.userPwd" ui-keypress="{enter: 'login()'}">
-                <span class="fa fa-lock user-control-icon"></span>
-            </div>
-            <div class="login-spacing"></div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <button type="submit" class="btn bg-blue2 login-btn" ng-click="login()"><span>LOGIN</span>
-                    </button>
-                </div>
-            </div>
-            <p class="login-box-msg"><span>Copyright © HYOSUNG TNS.</span> All rights reserved.</p>
-        </div>
+        <p class="login-box-msg"><span>Copyright © HYOSUNG TNS.</span> All rights reserved.</p>
     </div>
+</div>
 
-    <!-- loading -->
+<!-- loading -->
 
-     <div class="loading" ng-show="loadingView">
-        <div class="loadingCss" ng-show="loadingView">
-            <div class="loader"></div>
-            <span class="loadingtxt">Loading...</span>
-        </div>
+<div class="loading" ng-show="loadingView">
+    <div class="loadingCss" ng-show="loadingView">
+        <div class="loader"></div>
+        <span class="loadingtxt">Loading...</span>
     </div>
+</div>
 
-    <!-- //loading -->
+<!-- //loading -->
 
-    <button type="button" id="changePasswordPopOpen" data-toggle="modal" data-target="#changePasswordPop" hidden="true"></button>
+<button type="button" id="changePasswordPopOpen" data-toggle="modal" data-target="#changePasswordPop"
+        hidden="true"></button>
 
-    <!-- changePassword pop modal -->
-    <%--
-    <div id="changePasswordPop" class="modal fade pop_watch_tech" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="top: 20%; width: 600px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" data-dismiss="modal" class="close">×</button>
-                    <h4 class="modal-title" id="exampleModalLabel"> Change password</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label for="Branch" class="col-sm-3 control-label-popup">Current Password</label>
-                            <div class="col-sm-9">
-                                <input id="changePwOldPw" ng-init="oldPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="oldPw">
-                            </div>
+<!-- changePassword pop modal -->
+<%--
+<div id="changePasswordPop" class="modal fade pop_watch_tech" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="top: 20%; width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">×</button>
+                <h4 class="modal-title" id="exampleModalLabel"> Change password</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="Branch" class="col-sm-3 control-label-popup">Current Password</label>
+                        <div class="col-sm-9">
+                            <input id="changePwOldPw" ng-init="oldPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="oldPw">
                         </div>
-                        <div class="form-group">
-                            <label for="Branch" class="col-sm-3 control-label-popup">New Password<span class="asterisk"></span></label>
-                            <div class="col-sm-9">
-                                <input id="chagePwNewPw" ng-init="newPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="newPw">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Branch" class="col-sm-3 control-label-popup">New Password<span class="asterisk"></span></label>
+                        <div class="col-sm-9">
+                            <input id="chagePwNewPw" ng-init="newPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="newPw">
                         </div>
-                        <div class="row">
-                            <label for="" class="col-sm-3"></label>
-                            <div class="col-sm-9">
-                                <span class="pwmessage">Password should be over 8, be mixed letter and number and include over 1 digit capital letter</span>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <label for="" class="col-sm-3"></label>
+                        <div class="col-sm-9">
+                            <span class="pwmessage">Password should be over 8, be mixed letter and number and include over 1 digit capital letter</span>
                         </div>
-                        <div class="form-group">
-                            <label for="Branch" class="col-sm-3 control-label-popup">Confirm Password<span class="asterisk"></span></label>
-                            <div class="col-sm-9">
-                                <input id="changePwConPw" ng-init="conPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="conPw">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Branch" class="col-sm-3 control-label-popup">Confirm Password<span class="asterisk"></span></label>
+                        <div class="col-sm-9">
+                            <input id="changePwConPw" ng-init="conPw='';" type="password" maxlength="20" ng-hide="showpassword" class="form-control" ng-model="conPw">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="changePasswordPopClose" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close fa-1_5x"></i> close </button>
-                    <button type="button" class="btn btn-info btn-popup btn-sm" ng-click="changePw();"><i class="fa fa-save fa-1_5x"></i> Save </button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="changePasswordPopClose" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close fa-1_5x"></i> close </button>
+                <button type="button" class="btn btn-info btn-popup btn-sm" ng-click="changePw();"><i class="fa fa-save fa-1_5x"></i> Save </button>
             </div>
         </div>
     </div>
-    --%>
-    <!--//  changePassword pop modal -->
+</div>
+--%>
+<!--//  changePassword pop modal -->
 
 </body>
 

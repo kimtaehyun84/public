@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * @Package  : common.hyosung.common.business.session.controller
+ * @Package : common.hyosung.common.business.session.controller
  * @FileName :
  * @Version :
  * @Date : 2019-04-08
@@ -38,15 +38,8 @@ public class SessionController {
      * @Description : User login 처리
      */
 
-    @Resource(name="sessionService")
+    @Resource(name = "sessionService")
     private SessionService sessionService;
-
-
-
-
-
-
-
 
 
 }

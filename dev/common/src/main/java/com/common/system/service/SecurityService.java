@@ -13,9 +13,13 @@ import java.util.HashMap;
  */
 public interface SecurityService {
     public HashMap<String, String> createRsaKey(HttpServletRequest request) throws Exception;
-    public void removeRsaKey(HttpServletRequest request) throws  Exception;
+
+    public void removeRsaKey(HttpServletRequest request) throws Exception;
+
     public String decryptRsa(HttpServletRequest requset, String value) throws Exception;
+
     public String encryptSha256Repeat(String value, String salt, String repeatCount) throws Exception;
+
     public String getSaltString() throws Exception;
 
 }

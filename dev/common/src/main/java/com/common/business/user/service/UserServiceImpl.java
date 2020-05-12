@@ -5,8 +5,7 @@ import com.common.business.user.vo.UserPwdPolicyVO;
 import org.springframework.stereotype.Service;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
-
+public class UserServiceImpl implements UserService {
 
 
     @Override

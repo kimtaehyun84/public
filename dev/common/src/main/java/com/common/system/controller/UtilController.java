@@ -27,8 +27,9 @@ import javax.servlet.http.HttpSession;
 public class UtilController {
     private static final Logger logger = LoggerFactory.getLogger(UtilController.class);
 
-    @Resource(name="securityService")
+    @Resource(name = "securityService")
     private SecurityService securityService;
+
     /**
      * @Name: getPublickey
      * @Type : Function
@@ -37,8 +38,9 @@ public class UtilController {
      * @Author : Taehyun Kim
      * @Description : RSA PublicKey 전달
      */
-    @RequestMapping(value="/getPublicKey", method= RequestMethod.POST)
-    public @ResponseBody ResponseResultVO getPublicKey(HttpSession session, HttpServletRequest request) throws Exception{
+    @RequestMapping(value = "/getPublicKey", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseResultVO getPublicKey(HttpSession session, HttpServletRequest request) throws Exception {
         logger.info("Create RSA Public Key");
         ResponseResultVO responseResult = new ResponseResultVO();
         responseResult.setBody(securityService.createRsaKey(request));

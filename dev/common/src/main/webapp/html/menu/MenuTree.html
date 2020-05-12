@@ -1,5 +1,5 @@
 <aside ng-controller="menuCtrl">
-    <div class="menu-panel" >
+    <div class="menu-panel">
         <div class="slimScrollDiv">
             <div class="slimscrollright">
                 <div class="m-panel-body">
@@ -41,24 +41,27 @@
                     </div>
                     <div class="full-menu-list">
                         <div class="list-section">
-                            <div class="item" ng-repeat = "d0 in menus">
+                            <div class="item" ng-repeat="d0 in menus">
                                 <h1>{{d0.menuName}}</h1>
                                 <ul>
-                                    <li ng-repeat = "d1 in d0.children" >
-                                        <button class="menu-panel-item" ng-click="addTab(d1.menuId, d1.menuName, d1.pageUrl);"> <!-- clickMenu(d1.pageUrl);" -->
+                                    <li ng-repeat="d1 in d0.children">
+                                        <button class="menu-panel-item"
+                                                ng-click="addTab(d1.menuId, d1.menuName, d1.pageUrl);">
+                                            <!-- clickMenu(d1.pageUrl);" -->
                                             <div class="clearfix block">
                                                 <p class="pull-left">
                                                     <i class="icon-settings"></i>
                                                     <span class="vertical-middle">{{d1.menuName}}</span>
                                                 </p>
-                                                <p ng-if = "d1.children.length > 0"  class="pull-right">
+                                                <p ng-if="d1.children.length > 0" class="pull-right">
                                                     <i class="fa fa-caret-down inline-block"></i>
                                                 </p>
                                             </div>
                                         </button>
-                                        <ul ng-if = "d1.children.length > 0" >
-                                            <li ng-repeat = "d2 in d1.children">
-                                                <a class="menu-panel-item" ng-click="addTab(d2.menuId, d2.menuName, d2.pageUrl);">
+                                        <ul ng-if="d1.children.length > 0">
+                                            <li ng-repeat="d2 in d1.children">
+                                                <a class="menu-panel-item"
+                                                   ng-click="addTab(d2.menuId, d2.menuName, d2.pageUrl);">
                                                     <p>
                                                         <i class="icon-settings"></i>
                                                         <span class="vertical-middle">{{d2.menuName}}</span>

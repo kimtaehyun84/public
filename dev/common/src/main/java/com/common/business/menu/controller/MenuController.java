@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 /**
- * @Package  : com.common.business.menu.controller
+ * @Package : com.common.business.menu.controller
  * @FileName : MenuController
  * @Version : 1.0
  * @Date : 2019-06-21
@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @Description : Menu 조회, 추가, 권환 부여 등 Menu에 관련된 Process 처리
  * ========================================================================
  * Date              ||  Name              ||  Descripton
- *  2019-06-21       ||  taehyun.kim       ||  신규 생성
+ * 2019-06-21       ||  taehyun.kim       ||  신규 생성
  * ========================================================================
  */
 
@@ -38,27 +38,28 @@ public class MenuController {
     @Resource(name = "menuService")
     private MenuService menuService;
 
-    @RequestMapping(value="/getMenuList", method= RequestMethod.POST)
-    public @ResponseBody ResponseResultVO getMenuList(@RequestBody UserSessionVO userSessionVO, HttpServletRequest request, HttpSession session) throws Exception{
+    @RequestMapping(value = "/getMenuList", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseResultVO getMenuList(@RequestBody UserSessionVO userSessionVO, HttpServletRequest request, HttpSession session) throws Exception {
         /**
-        * @Name: getMenuList
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-06-21
-        * @Author : Taehyun Kim
-        * @Param : [inputParam, request, session]
-        * @Return : com.common.business.common.vo.ResponseResultVO
-        * @Description :
-        * ========================================================================
-        *  Date              ||  Name              ||  Descripton
-        *  2019-06-21       ||  taehyun.kim       ||  신규 생성
-        * ========================================================================
-        */
+         * @Name: getMenuList
+         * @Type : Function
+         * @Version : 1.0
+         * @Date : 2019-06-21
+         * @Author : Taehyun Kim
+         * @Param : [inputParam, request, session]
+         * @Return : com.common.business.common.vo.ResponseResultVO
+         * @Description :
+         * ========================================================================
+         *  Date              ||  Name              ||  Descripton
+         *  2019-06-21       ||  taehyun.kim       ||  신규 생성
+         * ========================================================================
+         */
 
         logger.debug(userSessionVO.toString());
         ResponseResultVO responseResult = new ResponseResultVO();
 
-        HashMap<String, Object> inputParam = new HashMap<String,Object>();
+        HashMap<String, Object> inputParam = new HashMap<String, Object>();
         inputParam.put("userNo", userSessionVO.getUserNo());
         inputParam.put("userId", userSessionVO.getUserId());
         inputParam.put("userGroupNo", userSessionVO.getUserGroupNo());

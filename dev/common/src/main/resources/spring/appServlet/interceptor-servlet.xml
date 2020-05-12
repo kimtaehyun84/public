@@ -14,19 +14,17 @@
             <beans:bean id="commonInterceptor" class="com.common.prehandler.interceptor.CommonInterceptor"/>
         </interceptor>
 
-      <!--  <interceptor>
-            <mapping path="/**"/>
-            <exclude-mapping path="/login/*"/>
-            <beans:bean id="sessionInterceptor" class="com.hyosung.common.prehandler.interceptor.SessionInterceptor"/>
-        </interceptor>-->
+        <!--  <interceptor>
+              <mapping path="/**"/>
+              <exclude-mapping path="/login/*"/>
+              <beans:bean id="sessionInterceptor" class="com.hyosung.common.prehandler.interceptor.SessionInterceptor"/>
+          </interceptor>-->
     </interceptors>
 
     <beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <beans:property name="order" value="0"/>
     </beans:bean>
-
-
 
 
 </beans:beans>

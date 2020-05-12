@@ -25,7 +25,7 @@ import org.json.simple.parser.JSONParser;
 
 import static org.springframework.util.StringUtils.*;
 
-public class DecryptParamWrapper extends HttpServletRequestWrapper{
+public class DecryptParamWrapper extends HttpServletRequestWrapper {
 
     private final Charset encoding;
 
@@ -34,27 +34,27 @@ public class DecryptParamWrapper extends HttpServletRequestWrapper{
     Config config = new Config();
 
 
-    public DecryptParamWrapper(HttpServletRequest request) throws Exception{
+    public DecryptParamWrapper(HttpServletRequest request) throws Exception {
         /**
-        * @Name: DecryptParamWrapper
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-12-18
-        * @Author : Taehyun Kim
-        * @Param : [request]
-        * @Return :
-        * @Description : request parameter의 암호화된 값을 복호화
-        * ========================================================================
-        *  Date              ||  Name              ||  Descripton
-        *  2019-12-18       ||  taehyun.kim       ||  신규 생성
-        * ========================================================================
-        */
+         * @Name: DecryptParamWrapper
+         * @Type : Function
+         * @Version : 1.0
+         * @Date : 2019-12-18
+         * @Author : Taehyun Kim
+         * @Param : [request]
+         * @Return :
+         * @Description : request parameter의 암호화된 값을 복호화
+         * ========================================================================
+         *  Date              ||  Name              ||  Descripton
+         *  2019-12-18       ||  taehyun.kim       ||  신규 생성
+         * ========================================================================
+         */
         super(request);
 
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
         String characterEncoding = request.getCharacterEncoding();
-        if(isEmpty(characterEncoding)){
+        if (isEmpty(characterEncoding)) {
             characterEncoding = StandardCharsets.UTF_8.name();
         }
         this.encoding = Charset.forName(characterEncoding);
@@ -82,12 +82,11 @@ public class DecryptParamWrapper extends HttpServletRequestWrapper{
             bodyString = stringBuilder.toString();
 
 
-            if(bodyString != null && !"".equals(bodyString)){
+            if (bodyString != null && !"".equals(bodyString)) {
                 logger.debug("Parameter : " + bodyString);
                 body = SecurityUtils.decryptRsa(bodyString);
                 logger.debug("Decrypted Param : " + body);
-            }
-            else{
+            } else {
                 body = bodyString;
             }
 

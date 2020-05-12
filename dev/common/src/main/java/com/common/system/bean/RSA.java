@@ -21,7 +21,6 @@ public class RSA {
     private PrivateKey privateKey = null;
 
 
-
     public static RSA getEncKey() {
 
         KeyPairGenerator generator;
@@ -64,7 +63,7 @@ public class RSA {
         return rsa;
     }
 
-    public static boolean dec(PrivateKey privateKey, String encString) throws Exception{
+    public static boolean dec(PrivateKey privateKey, String encString) throws Exception {
         boolean result = false;
 
         if (privateKey == null) {
@@ -82,14 +81,14 @@ public class RSA {
     }
 
     public static String decryptRsa(PrivateKey privateKey, String securedValue) throws Exception {
-        try{
+        try {
             Cipher cipher = Cipher.getInstance("RSA");
             byte[] encryptedBytes = hexToByteArray(securedValue);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
             String decryptedValue = new String(decryptedBytes, "utf-8"); // 문자 인코딩 주의.
             return decryptedValue;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.toString());
             return "fail";
@@ -103,7 +102,7 @@ public class RSA {
 
         byte[] bytes = new byte[hex.length() / 2];
         for (int i = 0; i < hex.length(); i += 2) {
-            byte value = (byte)Integer.parseInt(hex.substring(i, i + 2), 16);
+            byte value = (byte) Integer.parseInt(hex.substring(i, i + 2), 16);
             bytes[(int) Math.floor(i / 2)] = value;
         }
 
@@ -115,18 +114,23 @@ public class RSA {
     public String getPublicKeyModulus() {
         return publicKeyModulus;
     }
+
     public void setPublicKeyModulus(String publicKeyModulus) {
         this.publicKeyModulus = publicKeyModulus;
     }
+
     public String getPublicKeyExponent() {
         return publicKeyExponent;
     }
+
     public void setPublicKeyExponent(String publicKeyExponent) {
         this.publicKeyExponent = publicKeyExponent;
     }
+
     public PrivateKey getPrivateKey() {
         return privateKey;
     }
+
     public void setPrivateKey(PrivateKey privateKey) {
         this.privateKey = privateKey;
     }

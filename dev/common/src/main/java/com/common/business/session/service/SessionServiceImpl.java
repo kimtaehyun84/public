@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
  * @Description : SessionService의 implements
  */
 @Service("sessionService")
-public class SessionServiceImpl implements SessionService{
+public class SessionServiceImpl implements SessionService {
 
     /**
      * @Name: getSession
@@ -29,7 +29,7 @@ public class SessionServiceImpl implements SessionService{
     @Override
     public UserSessionVO getSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        UserSessionVO userSession = (UserSessionVO)session.getAttribute(Globals.SESSION_KEY);
+        UserSessionVO userSession = (UserSessionVO) session.getAttribute(Globals.SESSION_KEY);
         return userSession;
     }
 
@@ -45,7 +45,7 @@ public class SessionServiceImpl implements SessionService{
     @Override
     public void setSession(HttpServletRequest request, String key, Object value) {
         HttpSession session = request.getSession();
-        session.setAttribute(key,value);
+        session.setAttribute(key, value);
     }
 
 

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Config {
     /**
-     * @Package  : com.common.business.common.bean
+     * @Package : com.common.business.common.bean
      * @FileName : Config
      * @Version : 1.0
      * @Date : 2019-12-03
@@ -21,7 +21,7 @@ public class Config {
      * @Description : Server configuration
      * ========================================================================
      * Date              ||  Name              ||  Descripton
-     *  2019-12-03       ||  taehyun.kim       ||  신규 생성
+     * 2019-12-03       ||  taehyun.kim       ||  신규 생성
      * ========================================================================
      */
     private static String[] loginType;
@@ -37,48 +37,52 @@ public class Config {
 
 
     private static String type;
-    public void setType(String type){
+
+    public void setType(String type) {
         this.type = type;
     }
 
     private static String logHome;
-    public void setLogHome(String logHome){
+
+    public void setLogHome(String logHome) {
         this.logHome = logHome;
     }
 
     private static String logMaxHistoryDate;
-    public void setLogMaxHistoryDate(String logMaxHistoryDate){
+
+    public void setLogMaxHistoryDate(String logMaxHistoryDate) {
         this.logMaxHistoryDate = logMaxHistoryDate;
     }
 
 
     protected CommonService service;
-    public void setCommonService (CommonService service){
+
+    public void setCommonService(CommonService service) {
         this.service = service;
     }
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    public void init() throws Exception{
+    public void init() throws Exception {
         /**
-        * @Name: init
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-12-03
-        * @Author : Taehyun Kim
-        * @Param : []
-        * @Return : void
-        * @Description : type에 따른 초기 Config 설정
-        * ========================================================================
-        *  Date              ||  Name              ||  Descripton
-        *  2019-12-03       ||  taehyun.kim       ||  신규 생성
-        * ========================================================================
-        */
+         * @Name: init
+         * @Type : Function
+         * @Version : 1.0
+         * @Date : 2019-12-03
+         * @Author : Taehyun Kim
+         * @Param : []
+         * @Return : void
+         * @Description : type에 따른 초기 Config 설정
+         * ========================================================================
+         *  Date              ||  Name              ||  Descripton
+         *  2019-12-03       ||  taehyun.kim       ||  신규 생성
+         * ========================================================================
+         */
         logger.info(Logs.LOG_START);
         logger.info("Initialize Server Configuration");
 
-        if(this.type == null || "".equals(this.type)){
+        if (this.type == null || "".equals(this.type)) {
             this.type = "common";
             logger.info("Server Type is null, set server type common");
 
@@ -108,22 +112,21 @@ public class Config {
                 logger.info("Load Configuration Complete");
 
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             logger.info("Fail to get config from database");
             throw e;
         }
-        try{
+        try {
 
-                logger.info("Start to create RSA key");
-                RSA rsa = RSA.getEncKey();
-                this.privateKey = rsa.getPrivateKey();
-                this.publicKeyModulus = rsa.getPublicKeyModulus();
-                this.publicKeyExponent = rsa.getPublicKeyExponent();
-                logger.debug("Private Key : " + this.privateKey.getEncoded());
-                logger.debug("publicKey Exponent : " + this.publicKeyExponent);
-                logger.debug("publicKey Modulus : " + this.publicKeyModulus);
-                logger.info("Set RSA key Complete");
+            logger.info("Start to create RSA key");
+            RSA rsa = RSA.getEncKey();
+            this.privateKey = rsa.getPrivateKey();
+            this.publicKeyModulus = rsa.getPublicKeyModulus();
+            this.publicKeyExponent = rsa.getPublicKeyExponent();
+            logger.debug("Private Key : " + this.privateKey.getEncoded());
+            logger.debug("publicKey Exponent : " + this.publicKeyExponent);
+            logger.debug("publicKey Modulus : " + this.publicKeyModulus);
+            logger.info("Set RSA key Complete");
 
         } catch (Exception e) {
             logger.info("Fail to set RSA key");

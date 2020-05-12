@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Package  : com.common.system
+ * @Package : com.common.system
  * @FileName : ErrorController
  * @Version : 1.0
  * @Date : 2019-04-08
@@ -33,8 +33,9 @@ public class ErrorController {
      * @Description : Java Exception 처리
      */
 
-    @RequestMapping(value="/error")
-    public @ResponseBody ResponseResultVO error(HttpServletRequest request, Exception ex){
+    @RequestMapping(value = "/error")
+    public @ResponseBody
+    ResponseResultVO error(HttpServletRequest request, Exception ex) {
         ResponseResultVO responseResult = new ResponseResultVO();
         responseResult.setStatus(Globals.RESULT_FAIL);
         responseResult.setMsg(Globals.ERROR_MSG);

@@ -20,19 +20,20 @@ import java.util.HashMap;
  */
 
 @Service("securityService")
-public class SecurityServiceImpl implements SecurityService{
+public class SecurityServiceImpl implements SecurityService {
     /**
-    *********************************************************
-    * @Name: createRsaKey
-    * @Type : Function
-    * @Version : 1.0
-    * @Date : 2019-04-16
-    * @Author : Taehyun Kim
-    * @Description : Rsa Public, Private Key 생성
-    *********************************************************
-    */
+     * ********************************************************
+     *
+     * @Name: createRsaKey
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Rsa Public, Private Key 생성
+     * ********************************************************
+     */
     @Override
-    public HashMap<String, String> createRsaKey(HttpServletRequest request) throws Exception{
+    public HashMap<String, String> createRsaKey(HttpServletRequest request) throws Exception {
         RSA rsa = RSA.getEncKey();
 
         HttpSession session = request.getSession();
@@ -44,35 +45,38 @@ public class SecurityServiceImpl implements SecurityService{
 
         return map;
     }
+
     /**
-        *********************************************************
-        * @Name: removeRsaKey
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-04-16
-        * @Author : Taehyun Kim
-        * @Description : Rsa Private Key 삭제
-        *********************************************************
-    */
+     * ********************************************************
+     *
+     * @Name: removeRsaKey
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Rsa Private Key 삭제
+     * ********************************************************
+     */
     @Override
-    public void removeRsaKey(HttpServletRequest request) throws Exception{
+    public void removeRsaKey(HttpServletRequest request) throws Exception {
         request.getSession().removeAttribute(Globals.RSA_PRIVATE_KEY);
     }
 
     /**
-        *********************************************************
-        * @Name: decryptRsa
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-04-16
-        * @Author : Taehyun Kim
-        * @Description : Rsa 암호화문 decrypt
-        *********************************************************
-        */
+     * ********************************************************
+     *
+     * @Name: decryptRsa
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Rsa 암호화문 decrypt
+     * ********************************************************
+     */
     @Override
     public String decryptRsa(HttpServletRequest request, String value) throws Exception {
         HttpSession session = request.getSession();
-        PrivateKey privateKey = (PrivateKey)session.getAttribute(Globals.RSA_PRIVATE_KEY);
+        PrivateKey privateKey = (PrivateKey) session.getAttribute(Globals.RSA_PRIVATE_KEY);
 
         String deValue = RSA.decryptRsa(privateKey, value);
 
@@ -80,15 +84,16 @@ public class SecurityServiceImpl implements SecurityService{
     }
 
     /**
-        *********************************************************
-        * @Name: encryptSha256Repeat
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-04-16
-        * @Author : Taehyun Kim
-        * @Description : Sha256 Hashing
-        *********************************************************
-        */
+     * ********************************************************
+     *
+     * @Name: encryptSha256Repeat
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Sha256 Hashing
+     * ********************************************************
+     */
     @Override
     public String encryptSha256Repeat(String value, String salt, String repeatCount) throws Exception {
 
@@ -96,7 +101,7 @@ public class SecurityServiceImpl implements SecurityService{
         Hashing hashing = new Hashing();
         String temp = value;
         StringBuffer sb;
-        for(int i = 0; i< Integer.parseInt(repeatCount); i++){
+        for (int i = 0; i < Integer.parseInt(repeatCount); i++) {
             sb = new StringBuffer();
             sb.append(salt);
             sb.append(temp);
@@ -108,16 +113,18 @@ public class SecurityServiceImpl implements SecurityService{
 
         return encryptText;
     }
-/**
-    *********************************************************
-    * @Name: getSaltString
-    * @Type : Function
-    * @Version : 1.0
-    * @Date : 2019-04-16
-    * @Author : Taehyun Kim
-    * @Description : Salt String 생성
-    *********************************************************
-    */
+
+    /**
+     * ********************************************************
+     *
+     * @Name: getSaltString
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Salt String 생성
+     * ********************************************************
+     */
     @Override
     public String getSaltString() throws Exception {
         Hashing hashing = new Hashing();

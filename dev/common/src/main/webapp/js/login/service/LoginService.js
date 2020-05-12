@@ -1,10 +1,10 @@
 myApp.service('LoginService', [
     '$cookies',
     '$cookieStore',
-    function($cookies, $cookieStore) {
+    function ($cookies, $cookieStore) {
 
         return {
-            checkCookie : function () {
+            checkCookie: function () {
                 if ($cookieStore.get('userId') != null && $cookieStore.get('userId') != null) {
                     return true;
                 } else {
@@ -12,11 +12,11 @@ myApp.service('LoginService', [
                 }
             },
 
-            getCookie : function () {
+            getCookie: function () {
                 return $cookieStore.get('userId');
             },
 
-            setCookie : function (userId) {
+            setCookie: function (userId) {
                 $cookieStore.put('userId', userId);
             }
         }

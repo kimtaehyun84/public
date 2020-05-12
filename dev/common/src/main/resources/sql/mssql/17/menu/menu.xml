@@ -4,7 +4,7 @@
 
 <mapper namespace="menu">
 
-    <select id="selectMenuInfo" parameterType = "hashmap" resultType="hashmap">
+    <select id="selectMenuInfo" parameterType="hashmap" resultType="hashmap">
 
     </select>
 

@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 <fmt:formatDate var="datetime" pattern="yyyyMM" value="${now}"/>
 <!DOCTYPE html>
@@ -50,7 +50,8 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/lib/angularjs/angular-cookies.js"></script>
     <!-- [User AngularJS Files] -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/common/App.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/session/controller/SessionController.js"></script>
+    <script type="text/javascript"
+            src="<%=request.getContextPath()%>/js/session/controller/SessionController.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/session/service/SessionService.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/common/CommonService.js"></script>
 
@@ -66,9 +67,10 @@
 
     <style>
         .selected {
-            background-color:#fffcde !important;
+            background-color: #fffcde !important;
         }
-        body.skin-v2.fixed.ng-scope.modal-open.changePasswordPop .modal-backdrop.fade.in{
+
+        body.skin-v2.fixed.ng-scope.modal-open.changePasswordPop .modal-backdrop.fade.in {
             z-index: 1020;
         }
     </style>
@@ -79,9 +81,10 @@
 <div class="wrapper">
 
     <!-- HEADER -->
-    <header class="main-header" ng-controller = "sessionCtrl">
+    <header class="main-header" ng-controller="sessionCtrl">
         <div class="nav-left">
-            <span class="logo" style="width:200px;"><img src="<%=request.getContextPath()%>/images/SBI_Logo_h.png"  alt="Logo"></span>
+            <span class="logo" style="width:200px;"><img src="<%=request.getContextPath()%>/images/SBI_Logo_h.png"
+                                                         alt="Logo"></span>
             <a href="" class="menu menu-panel-toggle">
                 <span class="menu-img"></span>
             </a>
@@ -103,7 +106,8 @@
                             </li>
                             <li class="divider" style="margin-top:0"></li>
                             <li>
-                                <a data-toggle="modal" data-target="#changePasswordPop" ><i class="ti-settings"></i> Change Password</a>
+                                <a data-toggle="modal" data-target="#changePasswordPop"><i class="ti-settings"></i>
+                                    Change Password</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -113,13 +117,14 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a style="cursor:pointer; font-size:20px" data-toggle="modal" data-target=".infomodal"><i class="mdi mdi-information-outline"></i></a>
+                        <a style="cursor:pointer; font-size:20px" data-toggle="modal" data-target=".infomodal"><i
+                                class="mdi mdi-information-outline"></i></a>
                     </li>
                 </ul>
             </div>
         </nav>
         <!-- change password pop btn-->
-       <%--<button type="button" id="changePasswordPopOpen" data-toggle="modal" data-target="#changePasswordPop" hidden="true"></button>--%>
+        <%--<button type="button" id="changePasswordPopOpen" data-toggle="modal" data-target="#changePasswordPop" hidden="true"></button>--%>
         <!-- //change password pop btn-->
         <ng-include src="'html/user/ChangePasswordPopUp.html'"></ng-include>
 
@@ -137,14 +142,15 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li id="li_1" class="tabLi active">
-                        <a id="Dashboard" class="tabLink" href="#contact_Home" aria-controls="contact_Home" role="tab" data-toggle="tab">Dashboard</a>
+                        <a id="Dashboard" class="tabLink" href="#contact_Home" aria-controls="contact_Home" role="tab"
+                           data-toggle="tab">Dashboard</a>
                         <!--                   	<span id="HomeClose">x</span> -->
                     </li>
                 </ul>
 
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="contact_Home" role="tabpanel" >
+                    <div class="tab-pane active" id="contact_Home" role="tabpanel">
                         <div ng-include="'html/dashBoard_sla.html'"></div>
                     </div>
                 </div>
@@ -152,7 +158,6 @@
             </div>
         </section>
     </div>
-
 
 
     <!--// CONTENTS -->
@@ -167,11 +172,13 @@
     <!--// FOOTER -->
 
     <!-- add_process modal -->
-    <div class="modal fade add_process" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade add_process" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-file-text"> Add Process</i></h4>
                 </div>
                 <div class="modal-body">
@@ -212,7 +219,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-check fa-fw"></i>SAVE</button>
-                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-close fa-fw"></i>CLOSE</button>
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i
+                            class="fa fa-close fa-fw"></i>CLOSE
+                    </button>
                 </div>
             </div>
         </div>
@@ -240,7 +249,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-group mb-0">
-                        <button type="button" class="btn btn-close waves-effect" data-dismiss="modal" click="close()">Close</button>
+                        <button type="button" class="btn btn-close waves-effect" data-dismiss="modal" click="close()">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>

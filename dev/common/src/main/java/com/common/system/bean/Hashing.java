@@ -18,15 +18,16 @@ import java.util.Random;
 public class Hashing {
 
     /**
-        *********************************************************
-        * @Name: SHA256
-        * @Type : Function
-        * @Version : 1.0
-        * @Date : 2019-04-16
-        * @Author : Taehyun Kim
-        * @Description : SHA256 Hashing Method
-        *********************************************************
-        */
+     * ********************************************************
+     *
+     * @Name: SHA256
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : SHA256 Hashing Method
+     * ********************************************************
+     */
 
     public String encryptSHA256(String plainText) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -39,9 +40,9 @@ public class Hashing {
         }
 
         StringBuffer hexString = new StringBuffer();
-        for (int i=0;i<byteData.length;i++) {
-            String hex=Integer.toHexString(0xff & byteData[i]);
-            if(hex.length()==1){
+        for (int i = 0; i < byteData.length; i++) {
+            String hex = Integer.toHexString(0xff & byteData[i]);
+            if (hex.length() == 1) {
                 hexString.append('0');
             }
             hexString.append(hex);
@@ -49,31 +50,32 @@ public class Hashing {
 
         return hexString.toString();
     }
-/**
-    *********************************************************
-    * @Name: createSaltString
-    * @Type : Function
-    * @Version : 1.0
-    * @Date : 2019-04-16
-    * @Author : Taehyun Kim
-    * @Description : Salt String 생성
-    *********************************************************
-    */
-    public String createSaltString(){
+
+    /**
+     * ********************************************************
+     *
+     * @Name: createSaltString
+     * @Type : Function
+     * @Version : 1.0
+     * @Date : 2019-04-16
+     * @Author : Taehyun Kim
+     * @Description : Salt String 생성
+     * ********************************************************
+     */
+    public String createSaltString() {
         String str = new String();
         Random rnd = new Random();
         int repeatCount = Integer.parseInt(Globals.SALT_REPEAT_COUNT);
 
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i< repeatCount; i++){
+        for (int i = 0; i < repeatCount; i++) {
             int ri = rnd.nextInt(10);
             float f = rnd.nextFloat();
             boolean b = rnd.nextBoolean();
 
-            if(b){
-                sb.append((char)((Math.random() * 26) + 97));
-            }
-            else{
+            if (b) {
+                sb.append((char) ((Math.random() * 26) + 97));
+            } else {
                 sb.append(ri);
             }
         }

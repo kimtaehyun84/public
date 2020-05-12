@@ -24,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 
-
-
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
@@ -48,15 +46,14 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
         UserSessionVO userSession;
         userSession = sessionService.getSession(request);
 
-        if(userSession == null){
+        if (userSession == null) {
             logger.info("Session Interceptor : Session has Expired");
             ResponseResultVO responseResult = new ResponseResultVO();
             responseResult.setStatus(Globals.RESULT_FAIL);
             responseResult.setMsg(Globals.SESSION_FAIL_MSG);
             response.getWriter().write(responseResult.toString());
             return false;
-        }
-        else{
+        } else {
             logger.info("Session Interceptor : Session check Success");
             return super.preHandle(request, response, handler);
         }

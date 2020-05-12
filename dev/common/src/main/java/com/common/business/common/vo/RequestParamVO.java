@@ -1,7 +1,6 @@
 package com.common.business.common.vo;
 
 
-
 public class RequestParamVO {
     private int isEncrypt;
     private String param;

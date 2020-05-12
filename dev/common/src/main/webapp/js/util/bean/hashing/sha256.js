@@ -1,19 +1,42 @@
-function safe_add (x, y) {
+function safe_add(x, y) {
     var lsw = (x & 0xFFFF) + (y & 0xFFFF);
     var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
     return (msw << 16) | (lsw & 0xFFFF);
 }
 
-function S (X, n) { return ( X >>> n ) | (X << (32 - n)); }
-function R (X, n) { return ( X >>> n ); }
-function Ch(x, y, z) { return ((x & y) ^ ((~x) & z)); }
-function Maj(x, y, z) { return ((x & y) ^ (x & z) ^ (y & z)); }
-function Sigma0256(x) { return (S(x, 2) ^ S(x, 13) ^ S(x, 22)); }
-function Sigma1256(x) { return (S(x, 6) ^ S(x, 11) ^ S(x, 25)); }
-function Gamma0256(x) { return (S(x, 7) ^ S(x, 18) ^ R(x, 3)); }
-function Gamma1256(x) { return (S(x, 17) ^ S(x, 19) ^ R(x, 10)); }
+function S(X, n) {
+    return (X >>> n) | (X << (32 - n));
+}
 
-function core_sha256 (m, l) {
+function R(X, n) {
+    return (X >>> n);
+}
+
+function Ch(x, y, z) {
+    return ((x & y) ^ ((~x) & z));
+}
+
+function Maj(x, y, z) {
+    return ((x & y) ^ (x & z) ^ (y & z));
+}
+
+function Sigma0256(x) {
+    return (S(x, 2) ^ S(x, 13) ^ S(x, 22));
+}
+
+function Sigma1256(x) {
+    return (S(x, 6) ^ S(x, 11) ^ S(x, 25));
+}
+
+function Gamma0256(x) {
+    return (S(x, 7) ^ S(x, 18) ^ R(x, 3));
+}
+
+function Gamma1256(x) {
+    return (S(x, 17) ^ S(x, 19) ^ R(x, 10));
+}
+
+function core_sha256(m, l) {
 
     var K = new Array(0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5, 0x3956C25B, 0x59F111F1,
         0x923F82A4, 0xAB1C5ED5, 0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
@@ -37,7 +60,7 @@ function core_sha256 (m, l) {
     m[l >> 5] |= 0x80 << (24 - l % 32);
     m[((l + 64 >> 9) << 4) + 15] = l;
 
-    for ( var i = 0; i<m.length; i+=16 ) {
+    for (var i = 0; i < m.length; i += 16) {
         a = HASH[0];
         b = HASH[1];
         c = HASH[2];
@@ -47,7 +70,7 @@ function core_sha256 (m, l) {
         g = HASH[6];
         h = HASH[7];
 
-        for ( var j = 0; j<64; j++) {
+        for (var j = 0; j < 64; j++) {
             if (j < 16) W[j] = m[j + i];
             else W[j] = safe_add(safe_add(safe_add(Gamma1256(W[j - 2]), W[j - 7]), Gamma0256(W[j - 15])), W[j - 16]);
 

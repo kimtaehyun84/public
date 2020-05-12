@@ -1,10 +1,11 @@
 @font-face {
-  font-family: 'fontello-icon-file';
-  src: url('../fonts/fontello-icon-file.eot?12195741');
-  src: url('../fonts/fontello-icon-file.eot?12195741#iefix') format('embedded-opentype'),url('../fonts/fontello-icon-file.woff2?12195741') format('woff2'),url('../fonts/fontello-icon-file.woff?12195741') format('woff'),url('../fonts/fontello-icon-file.ttf?12195741') format('truetype'),url('../fonts/fontello-icon-file.svg?12195741#fontello-icon-file') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'fontello-icon-file';
+    src: url('../fonts/fontello-icon-file.eot?12195741');
+    src: url('../fonts/fontello-icon-file.eot?12195741#iefix') format('embedded-opentype'), url('../fonts/fontello-icon-file.woff2?12195741') format('woff2'), url('../fonts/fontello-icon-file.woff?12195741') format('woff'), url('../fonts/fontello-icon-file.ttf?12195741') format('truetype'), url('../fonts/fontello-icon-file.svg?12195741#fontello-icon-file') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
+
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
@@ -19,27 +20,43 @@
 .icon-file-two,
 .icon-spin3,
 .icon-marquee {
-  font-family: "fontello-icon-file";
-  font-style: normal;
-  font-weight: normal;
- }
-
-.demo-icon {
-  display: inline-block;
-  font: normal normal normal 14px/1 fontello-icon-file;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /*------------*/
-  font-variant: normal;
-  text-transform: none;
-  speak: none;
-  text-decoration: inherit;
-  text-align: center;
+    font-family: "fontello-icon-file";
+    font-style: normal;
+    font-weight: normal;
 }
 
-.icon-file-three:before { content: '\e800'; } /* '' */
-.icon-file-two:before { content: '\e801'; } /* '' */
-.icon-spin3:before { content: '\e832'; } /* '' */
-.icon-marquee:before { content: '\e847'; } /* '' */
+.demo-icon {
+    display: inline-block;
+    font: normal normal normal 14px/1 fontello-icon-file;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*------------*/
+    font-variant: normal;
+    text-transform: none;
+    speak: none;
+    text-decoration: inherit;
+    text-align: center;
+}
+
+.icon-file-three:before {
+    content: '\e800';
+}
+
+/* '' */
+.icon-file-two:before {
+    content: '\e801';
+}
+
+/* '' */
+.icon-spin3:before {
+    content: '\e832';
+}
+
+/* '' */
+.icon-marquee:before {
+    content: '\e847';
+}
+
+/* '' */

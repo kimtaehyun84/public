@@ -55,16 +55,17 @@ public class LoginController {
     private String loginEnable = Config.getLoginEnable();
 
     @RequestMapping(value = "/login")
-    public @ResponseBody ResponseResultVO login(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws Exception {
+    public @ResponseBody
+    ResponseResultVO login(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws Exception {
 
 
         logger.debug("Param : " + loginVO.toString());
-        HashMap<String,Object> inputParam = new HashMap<>();
+        HashMap<String, Object> inputParam = new HashMap<>();
         ResponseResultVO responseResult = new ResponseResultVO();
 
         HashMap<String, Object> result = new HashMap<String, Object>();
-        String userId  = loginVO.getUserId();
-        String userPwd  = loginVO.getUserPwd();
+        String userId = loginVO.getUserId();
+        String userPwd = loginVO.getUserPwd();
         String loginType = loginVO.getLoginType();
         String loginTypeText = (loginType.equals("01") ? "  General Login" : (loginType.equals("02") ? " Single Sign On" : "  Active Directory Login"));
 
@@ -74,23 +75,21 @@ public class LoginController {
         logger.info("Login Type : " + loginType + " " + loginTypeText);
 
 
-
-
-        if(Arrays.stream(Config.getLoginType()).filter(allowedLoginType -> allowedLoginType.contains(loginType)) == null){
-            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType +" " + loginTypeText +" is not allowed]");
+        if (Arrays.stream(Config.getLoginType()).filter(allowedLoginType -> allowedLoginType.contains(loginType)) == null) {
+            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType + " " + loginTypeText + " is not allowed]");
             responseResult.setStatus(Globals.RESULT_FAIL);
-            responseResult.setMsg("Login Type "+ loginType + " " + loginTypeText + "is not allowed");
+            responseResult.setMsg("Login Type " + loginType + " " + loginTypeText + "is not allowed");
         }
-        if(loginType.equals("01")){
+        if (loginType.equals("01")) {
 
 
-            inputParam.put("userId",userId);
+            inputParam.put("userId", userId);
             inputParam.put("userPwd", userPwd);
-            responseResult= loginService.checkUser(inputParam);
+            responseResult = loginService.checkUser(inputParam);
             logger.info(responseResult.toString());
 
-            if(responseResult.getStatus().equals(Globals.RESULT_OK)){
-                result = (HashMap<String,Object>)responseResult.getBody();
+            if (responseResult.getStatus().equals(Globals.RESULT_OK)) {
+                result = (HashMap<String, Object>) responseResult.getBody();
                 logger.info("Register Session Info");
                 logger.debug("Session Info : " + result.toString());
                 UserSessionVO userSession = new UserSessionVO();
@@ -98,25 +97,24 @@ public class LoginController {
                 userSession.setUserName(result.get("USER_NAME").toString());
                 userSession.setUserNo(result.get("USER_NO").toString());
                 userSession.setUserGroupNo(result.get("USER_GROUP_NO").toString());
-                sessionService.setSession(request,Globals.SESSION_KEY, userSession);
+                sessionService.setSession(request, Globals.SESSION_KEY, userSession);
                 logger.info("Register Session Info Complete");
                 responseResult.setBody(userSession);
             }
-        }
-        else if(loginType.equals("02")){
+        } else if (loginType.equals("02")) {
             ;
-        }
-        else{
-            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType +" " + loginTypeText +" is not allowed]");
+        } else {
+            logger.info("Login Type Error, Check Properties File. \n [Login Type : " + loginType + " " + loginTypeText + " is not allowed]");
             responseResult.setStatus(Globals.RESULT_FAIL);
-            responseResult.setMsg("Login Type "+ loginType + " " + loginTypeText + "is not allowed");
+            responseResult.setMsg("Login Type " + loginType + " " + loginTypeText + "is not allowed");
         }
 
         return responseResult;
     }
 
-    @RequestMapping(value="/logout")
-    public @ResponseBody ResponseResultVO logout(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws  Exception{
+    @RequestMapping(value = "/logout")
+    public @ResponseBody
+    ResponseResultVO logout(@RequestBody LoginVO loginVO, HttpServletRequest request, HttpSession session) throws Exception {
         logger.debug(loginVO.toString());
         ResponseResultVO responseResult = new ResponseResultVO();
         sessionService.removeAllSession(request);

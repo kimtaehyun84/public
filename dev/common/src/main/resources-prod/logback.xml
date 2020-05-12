@@ -8,14 +8,13 @@
     <!-- Appenders -->
 
 
-    <property resource="props/common.properties" />
-
-
+    <property resource="props/common.properties"/>
 
 
     <!-- ${property:-defaultValue} -->
-    <property name="log.home" value="${log.home:-/logs/app}" />
-    <property name="log.pattern" value="${log.pattern:-[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-41c{1}:%4L]│%X{GID}│%msg%n}" />
+    <property name="log.home" value="${log.home:-/logs/app}"/>
+    <property name="log.pattern"
+              value="${log.pattern:-[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-41c{1}:%4L]│%X{GID}│%msg%n}"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -60,37 +59,37 @@
     </appender>
 
 
-    <logger name="com.common.prehandler.interceptor.MybatisLogInterceptor" level ="DEBUG">
-        <appender-ref ref = "sqlAppender"></appender-ref>
-        <appender-ref ref = "errorAppender"></appender-ref>
+    <logger name="com.common.prehandler.interceptor.MybatisLogInterceptor" level="DEBUG">
+        <appender-ref ref="sqlAppender"></appender-ref>
+        <appender-ref ref="errorAppender"></appender-ref>
     </logger>
 
     <!-- Application Loggers -->
     <logger name="com.hyosung.common">
-        <level value="DEBUG" />
+        <level value="DEBUG"/>
     </logger>
 
     <!-- 3rdparty Loggers -->
     <logger name="org.springframework.core">
-        <level value="DEBUG" />
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework.beans">
-        <level value="DEBUG" />
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework.context">
-        <level value="DEBUG" />
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework.web">
-        <level value="info" />
+        <level value="info"/>
     </logger>
 
     <!-- Root Logger -->
     <root>
-        <priority value="DEBUG" />
-        <appender-ref ref="console" />
+        <priority value="DEBUG"/>
+        <appender-ref ref="console"/>
     </root>
 
 </configuration>

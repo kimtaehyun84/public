@@ -13,31 +13,33 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+
 /**
-********************************************************
-    *@Package : com.common.business.login.service
-    *@FileName : LoginServiceImpl
-    *@Version :
-    *@Date : 2019-04-16
-    *@Author : Taehyun Kim
-    *@Description : LoginService 의 Implements
-********************************************************
-*/
+ * *******************************************************
+ *
+ * @Package : com.common.business.login.service
+ * @FileName : LoginServiceImpl
+ * @Version :
+ * @Date : 2019-04-16
+ * @Author : Taehyun Kim
+ * @Description : LoginService 의 Implements
+ * *******************************************************
+ */
 
 @Service("loginService")
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Resource(name="loginDAO")
+    @Resource(name = "loginDAO")
     private LoginDAO loginDAO;
 
-    @Resource(name="securityService")
+    @Resource(name = "securityService")
     private SecurityService securityService;
 
-    @Resource(name="utilService")
+    @Resource(name = "utilService")
     private UtilService utilService;
 
-    @Resource(name="commonService")
+    @Resource(name = "commonService")
     private CommonService commonService;
 
     /**
@@ -48,7 +50,6 @@ public class LoginServiceImpl implements LoginService{
      * @Author : Taehyun Kim
      * @Description : 로그인시 User의 정보를 체크한다.
      */
-
 
 
     @Override
@@ -73,10 +74,9 @@ public class LoginServiceImpl implements LoginService{
             int failedCount = Integer.parseInt(userInfo.get("FAILED_COUNT").toString());
             String locked = userInfo.get("LOCKED").toString();
             String passwordModifyDate = userInfo.get("PASSWORD_MODIFY_DATE").toString();
-            long timeDiff = DateUtils.getDateDiffByDay(passwordModifyDate,"yyyy-MM-dd");
+            long timeDiff = DateUtils.getDateDiffByDay(passwordModifyDate, "yyyy-MM-dd");
             long passwordExpirePolicy = 90;
-            boolean passwordExpired =  timeDiff > passwordExpirePolicy ? true : false;
-
+            boolean passwordExpired = timeDiff > passwordExpirePolicy ? true : false;
 
 
             logger.info("User Info exist");
@@ -89,23 +89,22 @@ public class LoginServiceImpl implements LoginService{
                 // password 일치하는 경우
                 if (userInfo.get("USER_PWD").equals(userPwd)) {
                     logger.info("Time Diff : " + timeDiff);
-                    if(passwordExpired){
+                    if (passwordExpired) {
                         responseResult.setStatus(Globals.RESULT_FAIL);
                         responseResult.setMsg(Globals.ERROR_MSG_PWD_EXPIRED);
                         logger.info("Password has Expired");
-                    }
-                    else{
+                    } else {
                         responseResult.setStatus(Globals.RESULT_OK);
                         responseResult.setMsg(Globals.OK_MSG);
                         responseResult.setBody(userInfo);
-                        newInputParam.put("userNo",userNo);
+                        newInputParam.put("userNo", userNo);
                         newInputParam.put("failedCount", 0);
                         newInputParam.put("locked", locked);
                         newInputParam.put("lastLoginDate", "SUCCESS");
                         logger.debug(newInputParam.toString());
                         loginDAO.updateUserFailedCount(newInputParam);
                         logger.info("login success");
-                        commonService.insertAccessLog(userNo,"Login");
+                        commonService.insertAccessLog(userNo, "Login");
                     }
 
                 } else {
@@ -115,17 +114,17 @@ public class LoginServiceImpl implements LoginService{
                         responseResult.setStatus(Globals.RESULT_FAIL);
                         responseResult.setMsg(Globals.ERROR_MSG_PWD_WRONG);
                         logger.info("password is wrong. failed count : " + failedCount);
-                        commonService.insertAccessLog(userNo,"Login Fail, Password Wrong");
+                        commonService.insertAccessLog(userNo, "Login Fail, Password Wrong");
                     } else {
                         failedCount++;
                         locked = "Y";
                         responseResult.setStatus(Globals.RESULT_FAIL);
                         responseResult.setMsg(Globals.ERROR_MSG_LOGIN_LOCK);
                         logger.info("password is wrong. User ID has locked");
-                        commonService.insertAccessLog(userNo,"Login Fail, User ID has locked");
+                        commonService.insertAccessLog(userNo, "Login Fail, User ID has locked");
                     }
                     logger.info("Update failed Count and locked");
-                    newInputParam.put("userNo",userNo);
+                    newInputParam.put("userNo", userNo);
                     newInputParam.put("failedCount", failedCount);
                     newInputParam.put("locked", locked);
                     logger.debug(newInputParam.toString());

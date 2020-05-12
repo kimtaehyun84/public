@@ -35,7 +35,7 @@ import java.io.IOException;
 //@WebFilter(filterName = "HSTSFilter", urlPatterns = {"/*"})
 public class HSTSFilter implements Filter {
 
-	private static Logger log = LoggerFactory.getLogger(HSTSFilter.class);
+    private static Logger log = LoggerFactory.getLogger(HSTSFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -45,15 +45,14 @@ public class HSTSFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-    	log.info("Strict-Transport-Security header added to response");
+        log.info("Strict-Transport-Security header added to response");
 
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if(servletRequest.isSecure()){
-        	response.addHeader("Strict-Transport-Security", "max-age=31556926; includeSubDomains");
-        }
-        else{
-        	response.sendError(406);
+        if (servletRequest.isSecure()) {
+            response.addHeader("Strict-Transport-Security", "max-age=31556926; includeSubDomains");
+        } else {
+            response.sendError(406);
         }
 
         filterChain.doFilter(servletRequest, response);
