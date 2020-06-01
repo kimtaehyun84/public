@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateUtils {
     /**
@@ -228,5 +230,26 @@ public class DateUtils {
 
         long timeDiff = ChronoUnit.DAYS.between(inputDate, nowDate);
         return nowDate.isBefore(inputDate) ? (-1 * timeDiff) : timeDiff;
+    }
+    public static String getNowTime(String dateFormat) {
+        /**
+         * @Name: getNowTime
+         * @Type : Function
+         * @Version : 1.0
+         * @Date : 2020/05/21
+         * @Author : Taehyun.Kim
+         * @Param : [dateFormat]
+         * @Return : java.lang.String
+         * @Description : 입력된 포맷 형태의 현재시간을 반환한다.
+         * ========================================================================
+         *  Date              ||  Name              ||  Descripton
+         *  2020/05/21        ||  Taehyun.Kim       ||  신규 생성
+         * ========================================================================
+         */
+        Calendar cal = GregorianCalendar.getInstance();
+        String retStr = "";
+        SimpleDateFormat sim = new SimpleDateFormat(dateFormat);
+        retStr = sim.format(cal.getTime());
+        return retStr;
     }
 }
