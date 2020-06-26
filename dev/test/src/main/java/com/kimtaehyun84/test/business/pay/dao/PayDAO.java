@@ -12,12 +12,43 @@ import java.util.List;
 public class PayDAO extends AbstractDAO {
 
 
-    public int deletePreviousAccessAuthority(String userNo){
-        return delete("user.deletePreviousAccessAuthority", userNo);
+    public int insertDistributeSummary(HashMap<String,String> inputParam){
+        return insert("pay.insertDistributeSummary", inputParam);
     }
 
-    public int deleteUserInfo(String userNo){
-        return delete("user.deleteUserInfo", userNo);
+    public int insertDistributeDetail(HashMap<String,String> inputParam){
+        return insert("pay.insertDistributeDetail", inputParam);
+    }
+
+    public int insertReceiveHistory(HashMap<String,String> inputParam){
+        return insert("pay.insertReceiveHistory", inputParam);
+    }
+
+    public HashMap<String, String> selectDistributeSummary(HashMap<String,String> inputParam){
+        return selectOne("pay.selectDistributeSummary", inputParam);
+    }
+
+    public HashMap<String, String> selectReceiveHistoryCount (HashMap<String,String> inputParam){
+        return selectOne("pay.selectReceiveHistoryCount", inputParam);
+    }
+
+    public HashMap<String, String> selectDistributeDetail(HashMap<String, String> inputParam){
+        return selectOne("pay.selectDistributeDetail", inputParam);
+    }
+
+    public int deleteDistributeDetail(HashMap<String,String> inputParam){
+        return delete("pay.deleteDistributeDetail", inputParam);
+    }
+
+    public int updateDistributeSummaryStatus(HashMap<String,String> inputParam){
+        return update("pay.updateDistributeSummaryStatus", inputParam);
+    }
+
+    public List<HashMap<String,String>> selectDistributeDetailList(HashMap<String,String> inputParam){
+        return selectList("pay.selectDistributeDetailList", inputParam);
+    }
+    public List<HashMap<String,String>> selectReceiveHistoryList(HashMap<String,String> inputParam){
+        return selectList("pay.selectReceiveHistoryList", inputParam);
     }
 
 }

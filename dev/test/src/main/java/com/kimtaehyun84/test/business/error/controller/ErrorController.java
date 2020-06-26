@@ -1,8 +1,8 @@
 package com.kimtaehyun84.test.business.error.controller;
 
 
-import com.kimtaehyun84.test.business.common.bean.Globals;
-import com.kimtaehyun84.test.business.common.vo.ResponseResultVO;
+import com.kimtaehyun84.test.business.common.vo.GlobalVO;
+import com.kimtaehyun84.test.business.common.dto.ResponseResultDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,10 +36,10 @@ public class ErrorController {
 
     @RequestMapping(value = "/error")
     public @ResponseBody
-    ResponseResultVO error(HttpServletRequest request, Exception ex) {
-        ResponseResultVO responseResult = new ResponseResultVO();
-        responseResult.setStatus(Globals.RESULT_FAIL);
-        responseResult.setMsg(Globals.ERROR_MSG);
+    ResponseResultDTO error(HttpServletRequest request, Exception ex) {
+        ResponseResultDTO responseResult = new ResponseResultDTO();
+        responseResult.setStatus(GlobalVO.RESULT_FAIL);
+        responseResult.setMsg(GlobalVO.ERROR_MSG);
         return responseResult;
     }
 }

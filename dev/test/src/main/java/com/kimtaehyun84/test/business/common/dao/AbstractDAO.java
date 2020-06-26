@@ -8,14 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * @Package : com.common.business.common.dao
- * @FileName :AbstractDAO
- * @Version : 1.0
- * @Date : 2019-04-11
- * @Author : Taehyun Kim
- * @Description : DB연결을 위한 공통 모듈
- */
+
 public class AbstractDAO {
     private static final Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
@@ -66,4 +59,5 @@ public class AbstractDAO {
         addQueryLog("select list", queryId);
         return sqlSession.selectList(queryId, params);
     }
+
 }

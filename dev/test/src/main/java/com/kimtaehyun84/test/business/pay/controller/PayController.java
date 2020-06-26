@@ -1,23 +1,19 @@
 package com.kimtaehyun84.test.business.pay.controller;
 
 
-import com.kimtaehyun84.test.business.common.vo.ResponseResultVO;
+import com.kimtaehyun84.test.business.common.dto.ResponseResultDTO;
 import com.kimtaehyun84.test.business.pay.service.PayService;
-import com.kimtaehyun84.test.business.pay.vo.DistributeVO;
-import com.kimtaehyun84.test.business.pay.vo.InquiryVO;
-import com.kimtaehyun84.test.business.pay.vo.ReceiveVO;
+import com.kimtaehyun84.test.business.pay.dto.DistributeDTO;
+import com.kimtaehyun84.test.business.pay.dto.InquiryDTO;
+import com.kimtaehyun84.test.business.pay.dto.ReceiveDTO;
 import com.kimtaehyun84.test.system.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -38,50 +34,50 @@ public class PayController {
 	private PayService payService;
 
 
-	@RequestMapping(value = "/distributte", method = RequestMethod.POST)
-	public ResponseResultVO distributte(@RequestBody DistributeVO vo, HttpServletRequest request, HttpSession session) throws Exception {
+	@RequestMapping(value = "/distribute", method = RequestMethod.POST)
+	public ResponseResultDTO distributte(@RequestBody DistributeDTO dto, HttpServletRequest request, HttpSession session) throws Exception {
 
-		HashMap<String,String> inputParam = BeanUtils.beanToHashMap(vo);
+		HashMap<String,String> inputParam = BeanUtils.beanToHashMap(dto);
 		String userId = request.getHeader("X-USER-ID");
 		String roomId = request.getHeader("X-ROOM-ID");
 		inputParam.put("userId", userId);
 		inputParam.put("roomId", roomId);
 
 
-		ResponseResultVO responseResultVO = payService.distribute(inputParam);
+		ResponseResultDTO responseResultDTO = payService.distribute(inputParam);
 
 
-		return responseResultVO ;
+		return responseResultDTO;
 
 	}
 
 	@RequestMapping(value = "/receive", method = RequestMethod.POST)
-	public ResponseResultVO receive(@RequestBody ReceiveVO vo, HttpServletRequest request, HttpSession session) throws Exception {
-		HashMap<String,String> inputParam = BeanUtils.beanToHashMap(vo);
+	public ResponseResultDTO receive(@RequestBody ReceiveDTO dto, HttpServletRequest request, HttpSession session) throws Exception {
+		HashMap<String,String> inputParam = BeanUtils.beanToHashMap(dto);
 		String userId = request.getHeader("X-USER-ID");
 		String roomId = request.getHeader("X-ROOM-ID");
 		inputParam.put("userId", userId);
 		inputParam.put("roomId", roomId);
 
-		ResponseResultVO responseResultVO = payService.receive(inputParam);
+		ResponseResultDTO responseResultDTO = payService.receive(inputParam);
 
 
-		return responseResultVO ;
+		return responseResultDTO;
 
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST)
-	public ResponseResultVO inquiry(@RequestBody InquiryVO vo, HttpServletRequest request, HttpSession session) throws Exception {
+	public ResponseResultDTO inquiry(@RequestBody InquiryDTO vo, HttpServletRequest request, HttpSession session) throws Exception {
 		HashMap<String,String> inputParam = BeanUtils.beanToHashMap(vo);
 		String userId = request.getHeader("X-USER-ID");
 		String roomId = request.getHeader("X-ROOM-ID");
 		inputParam.put("userId", userId);
 		inputParam.put("roomId", roomId);
 
-		ResponseResultVO responseResultVO = payService.inquiry(inputParam);
+		ResponseResultDTO responseResultDTO = payService.inquiry(inputParam);
 
 
-		return responseResultVO ;
+		return responseResultDTO;
 
 	}
 
