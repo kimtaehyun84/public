@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="site">
+    <select id="selectSiteInfoWithPaging" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            TT.*
+        FROM
+        (
+            SELECT
+                ROWNUM AS ROW_NUM,
+                T.*
+            FROM
+                (SELECT
+                    T1.SITE_NO AS SITE_NO,
+                    T1.SITE_NAME AS SITE_NAME,
+                    T1.SITE_DETAILS AS SITE_DETAILS,
+                    T1.SITE_URL AS SITE_URL,
+                    T1.SITE_IMG AS SITE_IMG,
+                    COUNT(*) OVER() AS TOTAL_CNT
+                FROM
+                T_COM_SITE_INFO T1
+
+                WHERE
+                    1=1
+                    <if test="userNo != null">
+                        AND T1.SITE_NO IN
+                        (
+                        SELECT SITE_NO FROM T_USER_SITE_PERMISSION WHERE EMPL_NO = #{userNo}
+                        union all
+                        SELECT SITE_NO FROM T_COM_SITE_INFO WHERE SITE_LOGIN_TYPE = '3';
+                        )
+                    </if>
+                    <if test="siteName != null">
+                        AND UPPER(T1.SITE_NAME) like '%'||#{siteName}||'%'
+                    </if>
+                    <if test="siteDetails != null">
+                        AND UPPER(T1.SITE_DETAILS) like '%'||#{siteDetails}||'%'
+                    </if>
+                    <if test="siteUrl != null">
+                        AND UPPER(T1.SITE_URL) like '%'||#{siteUrl}||'%'
+                    </if>
+                ORDER BY SITE_NAME
+                )T
+            WHERE
+                <![CDATA[ROWNUM <= #{endRow}]]>
+        )TT
+        WHERE
+            <![CDATA[TT.ROW_NUM >= #{startRow}]]>
+    </select>
+    <select id="selectSiteInfoWithAuth" parameterType="hashmap" resultType="hashmap">
+        SELECT
+            T1.SITE_NO ,
+            T1.SITE_NAME ,
+            T1.SITE_DETAILS,
+            T1.SITE_URL,
+            T1.AUTH_CONTEXT,
+            T1.SITE_LOGIN_TYPE,
+            T1.SITE_SSO_HEADER,
+            T1.LOGIN_CONTEXT,
+            T1.LOGOUT_CONTEXT,
+            T1.REMOTE_USER_MNG,
+            T1.REMOTE_ADD_CONTEXT,
+            T1.REMOTE_MOD_CONTEXT,
+            T1.REMOTE_DEL_CONTEXT,
+            T1.SITE_IMG
+        FROM
+            T_COM_SITE_INFO T1,
+            (
+                SELECT SITE_NO FROM T_USER_SITE_PERMISSION WHERE EMPL_NO = #{userNo}
+                union all
+                SELECT SITE_NO FROM T_COM_SITE_INFO WHERE SITE_LOGIN_TYPE = '3'
+            )T2
+        WHERE
+            1=1
+            AND T1.SITE_NO = T2.SITE_NO
+    </select>
+
+    <select id="selectSiteDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            T1.SITE_NO ,
+            T1.SITE_NAME ,
+            T1.SITE_DETAILS,
+            T1.SITE_URL,
+            T1.AUTH_CONTEXT,
+            T1.SITE_LOGIN_TYPE,
+            T1.SITE_SSO_HEADER,
+            T1.LOGIN_CONTEXT,
+            T1.LOGOUT_CONTEXT,
+            T1.REMOTE_USER_MNG,
+            T1.REMOTE_ADD_CONTEXT,
+            T1.REMOTE_MOD_CONTEXT,
+            T1.REMOTE_DEL_CONTEXT
+        FROM
+            T_COM_SITE_INFO T1
+        WHERE
+            1=1
+            AND T1.SITE_NO = #{siteNo}
+    </select>
+
+    <select id="selectAuthorizedSiteDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            T1.SITE_NO ,
+            T1.SITE_NAME ,
+            T1.SITE_DETAILS,
+            T1.SITE_URL,
+            T1.SITE_IMG,
+            T1.AUTH_CONTEXT,
+            T1.SITE_LOGIN_TYPE,
+            T1.SITE_SSO_HEADER,
+            T1.LOGIN_CONTEXT,
+            T1.LOGOUT_CONTEXT,
+            T1.SITE_CODE,
+            T1.REMOTE_USER_MNG,
+            T1.REMOTE_ADD_CONTEXT,
+            T1.REMOTE_MOD_CONTEXT,
+            T1.REMOTE_DEL_CONTEXT
+        FROM
+            T_COM_SITE_INFO T1,
+            (SELECT SITE_NO
+             FROM T_USER_SITE_PERMISSION
+             WHERE EMPL_NO = (SELECT EMPL_NO FROM T_COM_EMPL_INFO WHERE USER_ID = #{userId})
+             ) T2
+        WHERE
+            1=1
+            AND T1.SITE_NO = T2.SITE_NO
+            AND T1.REMOTE_USER_MNG = 'Y'
+    </select>
+
+
+    <insert id="insertSiteInfoHistory" parameterType="hashmap">
+        INSERT INTO T_COM_SITE_INFO_HIS
+             ( SITE_NO,             SITE_NAME,              SITE_DETAILS,
+               SITE_URL,            SITE_IMG,               LOG_EMPL_NO,
+               LOG_DATE,            AUTH_CONTEXT,           SITE_LOGIN_TYPE,
+               SITE_SSO_HEADER,     LOGIN_CONTEXT,          LOGOUT_CONTEXT,
+               REMOTE_ADD_CONTEXT,  REMOTE_MOD_CONTEXT,     REMOTE_DEL_CONTEXT,
+               REMOTE_USER_MNG)
+        VALUES
+            ( #{siteNo} ,           #{siteName},            #{siteDetails},
+              #{siteUrl},           #{siteImg},             #{loginUserNo},
+              sysdate,              #{authContext},         #{siteLoginType},
+              #{siteSsoHeader},     #{loginContext},        #{logoutContext},
+              #{remoteAddContext},  #{remoteModContext},    #{remoteDelContext},
+              #{remoteUserMng})
+    </insert>
+
+
+
+
+    <insert id="insertSiteInfo" parameterType="hashmap">
+        <selectKey resultType="string" keyProperty="siteNo" order ="BEFORE">
+            SELECT 'S'||LPad(To_CHAR(TO_NUMBER(seq_site_no.nextval)),5,'0') FROM DUAL
+        </selectKey>
+        INSERT INTO T_COM_SITE_INFO
+             ( SITE_NO,             SITE_NAME,              SITE_DETAILS,
+               SITE_URL,            SITE_IMG,               LOG_EMPL_NO,
+               LOG_DATE,            AUTH_CONTEXT,           SITE_LOGIN_TYPE,
+               SITE_SSO_HEADER,     LOGIN_CONTEXT,          LOGOUT_CONTEXT,
+               REMOTE_ADD_CONTEXT,  REMOTE_MOD_CONTEXT,     REMOTE_DEL_CONTEXT,
+               REMOTE_USER_MNG)
+        VALUES
+            ( #{siteNo} ,           #{siteName},            #{siteDetails},
+              #{siteUrl},           #{siteImg},             #{loginUserNo},
+              sysdate,              #{authContext},         #{siteLoginType},
+              #{siteSsoHeader},     #{loginContext},        #{logoutContext},
+              #{remoteAddContext},  #{remoteModContext},    #{remoteDelContext},
+              #{remoteUserMng})
+
+    </insert>
+
+
+    <update id="updateSiteInfo" parameterType="java.util.HashMap">
+        UPDATE T_COM_SITE_INFO
+           SET SITE_NAME = NVL(#{siteName}, SITE_NAME)
+             , SITE_DETAILS = NVL(#{siteDetails}, SITE_DETAILS)
+             , SITE_URL = NVL(#{siteUrl}, SITE_URL)
+             , AUTH_CONTEXT = NVL(#{authContext}, AUTH_CONTEXT)
+             , LOGIN_CONTEXT = NVL(#{loginContext}, LOGIN_CONTEXT)
+             , LOGOUT_CONTEXT = NVL(#{logoutContext}, LOGOUT_CONTEXT)
+             , SITE_IMG = NVL(#{siteImg}, SITE_IMG)
+             , MOD_EMPL_NO = #{loginUserNo}
+             , MOD_DATE = sysdate
+             , SITE_LOGIN_TYPE = NVL(#{siteLoginType}, SITE_LOGIN_TYPE)
+             , SITE_SSO_HEADER = NVL(#{siteSsoHeader}, SITE_SSO_HEADER)
+             , REMOTE_ADD_CONTEXT = NVL(#{remoteAddContext}, REMOTE_ADD_CONTEXT)
+             , REMOTE_MOD_CONTEXT = NVL(#{remoteModContext}, REMOTE_MOD_CONTEXT)
+             , REMOTE_DEL_CONTEXT = NVL(#{remoteDelContext}, REMOTE_DEL_CONTEXT)
+             , REMOTE_USER_MNG = NVL(#{remoteUserMng}, REMOTE_USER_MNG)
+         WHERE Site_No = #{siteNo}
+
+    </update>
+
+    <delete id="deleteSiteInfo" parameterType="java.util.HashMap">
+        DELETE FROM T_COM_SITE_INFO WHERE SITE_NO = #{siteNo}
+    </delete>
+
+
+    <select id="selectSiteListManageUser" resultType="hashmap">
+        SELECT
+            SITE_NO AS value,
+            SITE_NAME AS label
+        FROM T_COM_SITE_INFO
+    </select>
+
+    <select id="selectRemoteMngSiteInfo" resultType="hashmap">
+        SELECT
+            SITE_NO,
+            SITE_URL,
+            REMOTE_ADD_CONTEXT,
+            REMOTE_MOD_CONTEXT,
+            REMOTE_DEL_CONTEXT
+        FROM T_COM_SITE_INFO
+        WHERE
+             REMOTE_USER_MNG ='Y'
+    </select>
+</mapper>

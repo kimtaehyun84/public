@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="user">
+
+    <select id="selectUserInfoListWithPaging" parameterType="hashmap" resultType="hashmap">
+        SELECT TT.*
+
+        FROM
+        (
+            SELECT
+                ROWNUM AS ROW_NUM,
+                T.*
+            FROM
+                (SELECT
+                    EMPL_NO AS USER_NO,
+                    EMPL_NAME AS USER_NAME,
+                    USER_ID AS USER_ID,
+                    AVAILABLE AS USE_YN,
+                    COUNT(*) OVER() AS TOTAL_CNT
+                FROM
+                    T_COM_EMPL_INFO
+                WHERE
+                    1=1
+                    <if test="userName != null">
+                        AND UPPER(EMPL_NAME) LIKE '%'||#{userName}||'%'
+                    </if>
+                    <if test="userId != null">
+                        AND UPPER(USER_ID) LIKE '%'||#{userId}||'%'
+                    </if>
+                    <if test="useYn != null">
+                        AND UPPER(AVAILABLE) = #{useYn}
+                    </if>
+                    ORDER BY USER_ID, USER_NAME
+                ) T
+            WHERE
+                <![CDATA[ROWNUM <= #{endRow}]]>
+        )TT
+        WHERE
+            <![CDATA[TT.ROW_NUM >= #{startRow}]]>
+
+    </select>
+
+    <select id="selectUserInfoListForExcel" parameterType="hashmap" resultType="hashmap">
+        SELECT
+            T1.EMPL_NO AS USER_NO,
+            T1.EMPL_NAME AS USER_NAME,
+            T1.USER_ID AS USER_ID,
+            T1.AVAILABLE AS USE_YN,
+            CASE WHEN T1.ORG_ID = '79' THEN 'ROOT'
+                 ELSE '-'
+            END AS USER_ORG,
+            CASE WHEN T1.EMPL_DUTY = '01' THEN 'Administrator'
+                 WHEN EMPL_DUTY = '03' THEN 'User Management'
+                 ELSE 'User'
+            END AS USER_DUTY,
+            NVL(T2.ACCESS_AUTHORITY, '-') AS ACCESS_AUTHORITY
+        FROM
+            (SELECT
+                EMPL_NO ,
+                EMPL_NAME,
+                USER_ID ,
+                AVAILABLE,
+                ORG_ID,
+                EMPL_DUTY
+            FROM
+                T_COM_EMPL_INFO
+            WHERE
+                1=1
+                <if test="userName != null">
+                    AND UPPER(EMPL_NAME) LIKE '%'||#{userName}||'%'
+                </if>
+                <if test="userId != null">
+                    AND UPPER(USER_ID) LIKE '%'||#{userId}||'%'
+                </if>
+                <if test="useYn != null">
+                    AND UPPER(AVAILABLE) = #{useYn}
+                </if>
+                ORDER BY USER_ID, EMPL_NAME
+            ) T1,
+            (SELECT MAX(EMPL_NO) AS EMPL_NO,
+                    LISTAGG(SITE_NAME, ',') WITHIN GROUP (ORDER BY SITE_NAME)AS  ACCESS_AUTHORITY
+            FROM
+                (SELECT
+                    T1.SITE_NAME,
+                    T2.EMPL_NO
+                FROM
+                    T_COM_SITE_INFO T1,
+                    T_USER_SITE_PERMISSION T2
+                WHERE
+                    T1.SITE_NO = T2.SITE_NO
+                )
+            )T2
+
+        WHERE
+            T1.EMPL_NO = T2.EMPL_NO(+)
+
+    </select>
+
+    <select id="selectUserAccessAuthorityList" parameterType="String" resultType="hashmap">
+        SELECT
+            T1.empl_no,
+            T1.site_no,
+            T2.site_name
+        FROM (
+            SELECT
+                EMPL_NO,
+                SITE_NO
+            FROM
+                T_USER_SITE_PERMISSION
+            WHERE EMPL_NO = #{userNo}
+            ) T1,
+            T_COM_SITE_INFO T2
+        WHERE
+            T1.SITE_NO = T2.SITE_NO
+    </select>
+    <update id = "updateUserPassword" parameterType="hashmap">
+        UPDATE T_COM_EMPL_INFO
+            SET USER_PWD = #{userPwd}
+            ,   MOD_DATE = SYSDATE
+            ,   MOD_EMPL_NO = MOD_EMPL_NO
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <insert id="updateUserPasswordHistory" parameterType="hashmap">
+        INSERT INTO T_COM_PASSWORD_LOG
+        (SEQ, EMPL_NO, OLD_PW, MOD_DATE, MOD_EMPL_NO)
+        VALUES
+        (SEQ_PASSWORD_LOG.NEXTVAL, #{userNo}, #{oldPwd}, SYSDATE, #{loginEmplNo})
+    </insert>
+
+    <select id="selectUserDetail" parameterType="hashmap" resultType="hashmap">
+        SELECT
+            EMPL_NO AS USER_NO,
+            EMPL_NAME AS USER_NAME,
+            USER_ID AS USER_ID,
+            ORG_ID AS USER_ORG,
+            EMPL_DUTY AS USER_DUTY,
+            AVAILABLE AS USE_YN,
+            (SELECT LISTAGG(SITE_NO, ',') WITHIN GROUP (ORDER BY SITE_NO) FROM T_USER_SITE_PERMISSION WHERE EMPL_NO = #{userNo}) AS USER_TYPE
+        FROM T_COM_EMPL_INFO
+        WHERE EMPL_NO = #{userNo}
+    </select>
+
+    <insert id="insertUserInfo" parameterType="hashmap">
+        <selectKey resultType="string" keyProperty="userNo" order="BEFORE">
+            SELECT 'T'||LPAD(TO_CHAR(TO_NUMBER(SEQ_EMPL_NO.NEXTVAL)),5,'0') FROM DUAL
+        </selectKey>
+        INSERT INTO T_COM_EMPL_INFO
+        (EMPL_NO,   EMPL_NAME, USER_ID,   USER_PWD,
+         ORG_ID,    EMPL_DUTY, AVAILABLE, LOG_EMPL_NO,
+         LOG_DATE,  IS_LOGIN)
+        VALUES
+        (#{userNo},  #{userName}, #{userId}, #{userPwd},
+         #{userOrg}, #{userDuty}, #{useYn},  #{loginUserNo},
+         SYSDATE,    'N')
+    </insert>
+    <update id="updateUserInfo" parameterType="hashmap">
+        UPDATE T_COM_EMPL_INFO
+        SET EMPL_NAME = NVL(#{userName},EMPL_NAME)
+            <if test="userPwd != null">
+            ,USER_PWD = #{userPwd}
+            </if>
+            ,ORG_ID = NVL(#{userOrg},ORG_ID)
+            ,EMPL_DUTY = NVL(#{userDuty},EMPL_DUTY)
+            ,AVAILABLE = NVL(#{useYn},AVAILABLE)
+            ,MOD_EMPL_NO = #{loginUserNo}
+            ,MOD_DATE = SYSDATE
+        WHERE EMPL_NO = #{userNo}
+    </update>
+
+
+    <insert id="insertUserInfoHistory" parameterType="hashmap">
+        INSERT INTO T_COM_EMPL_INFO_HIS
+        (EMPL_NO,   EMPL_NAME, USER_ID,   USER_PWD,
+         ORG_ID,    EMPL_DUTY, AVAILABLE, LOG_EMPL_NO,
+         LOG_DATE)
+        VALUES
+        (#{userNo},  #{userName}, #{userId}, #{userPwd},
+         #{userOrg}, #{userDuty}, #{useYn},  #{loginUserNo},
+         SYSDATE)
+    </insert>
+
+    <delete id="deletePreviousAccessAuthority" parameterType="string">
+        DELETE FROM T_USER_SITE_PERMISSION WHERE EMPL_NO = #{userNo}
+    </delete>
+
+    <insert id="updateUserAccessAuthority" parameterType="list">
+        INSERT INTO T_USER_SITE_PERMISSION
+        (EMPL_NO, SITE_NO, REG_DATE, REG_EMPL_NO)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userNo}, #{item.siteNo}, SYSDATE, #{item.loginEmplNo})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserInfo" parameterType="string">
+        DELETE FROM T_COM_EMPL_INFO WHERE EMPL_NO = #{userNo}
+    </delete>
+
+</mapper>
