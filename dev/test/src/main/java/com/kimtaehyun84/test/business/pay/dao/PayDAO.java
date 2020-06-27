@@ -51,4 +51,17 @@ public class PayDAO extends AbstractDAO {
         return selectList("pay.selectReceiveHistoryList", inputParam);
     }
 
+    public int deleteLegacyReceiveHistory(String limitedDate){
+        return delete("pay.deleteLegacyReceiveHistory", limitedDate);
+    }
+
+    public int deleteLegacyDistributeSummary(String limitedDate){
+        return delete("pay.deleteLegacyDistributeSummary", limitedDate);
+    }
+    public int insertExpiredHistory(String limtedDateTime){
+        return insert("pay.insertExpiredHistory", limtedDateTime);
+    }
+    public int deleteLegacyDistributeDetail(String limitedDateTime){
+        return delete("pay.deleteLegacyDistributeDetail", limitedDateTime);
+    }
 }

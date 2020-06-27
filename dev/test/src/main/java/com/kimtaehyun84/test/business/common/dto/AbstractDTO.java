@@ -23,7 +23,7 @@ public class AbstractDTO {
 
     @Override
     public String toString() {
-        return "AbstractVO{" +
+        return "AbstractDTO{" +
                 "userId='" + userId + '\'' +
                 ", roomId='" + roomId + '\'' +
                 '}';

@@ -78,9 +78,16 @@
         UPDATE T_PAY_DISTRIBUTE_SUMMARY
         SET DISABLE = 'Y'
         WHERE 1=1
-            AND TOKEN = #{token}
-            AND ROOM_ID = #{roomId}
             AND DISABLE = 'N'
+            <if test="token != null">
+            AND TOKEN = #{token}
+            </if>
+            <if test="roomId != null">
+                AND ROOM_ID = #{roomId}
+            </if>
+            <if test="limitedDateTime != null">
+            AND <![CDATA[REG_DATE < TO_DATE(#{limitedDateTime}, 'YYYY-MM-DD HH24:MI:SS')]]>
+            </if>
     </update>
 
 
@@ -113,4 +120,26 @@
             AND TOKEN = #{token}
             AND ROOM_ID = #{roomId}
     </select>
+
+    <delete id="deleteLegacyReceiveHistory" parameterType="java.lang.String">
+        DELETE FROM T_PAY_RECEIVE_HISTORY
+        WHERE <![CDATA[REG_DATE < TO_DATE(#{limitedDate}, 'YYYY-MM-DD')]]>
+    </delete>
+
+    <delete id="deleteLegacyDistributeSummary" parameterType="java.lang.String">
+        DELETE FROM T_PAY_DISTRIBUTE_SUMMARY
+        WHERE <![CDATA[REG_DATE < TO_DATE(#{limitedDate}, 'YYYY-MM-DD')]]>
+    </delete>
+
+    <insert id="insertExpiredHistory" parameterType="java.lang.String">
+        INSERT INTO T_PAY_RECEIVE_HISTORY (REG_USER_ID, ROOM_ID, TOKEN, AMOUNT, RECV_USER_ID, REG_DATE )
+        SELECT REG_USER_ID ,ROOM_ID , TOKEN, AMOUNT ,'None', sysdate
+        FROM T_PAY_DISTRIBUTE_DETAIL
+        WHERE <![CDATA[REG_DATE < TO_DATE(#{limitedDateTime}, 'YYYY-MM-DD HH24:MI:SS')]]>
+    </insert>
+
+    <delete id="deleteLegacyDistributeDetail" parameterType="java.lang.String">
+        DELETE FROM T_PAY_DISTRIBUTE_DETAIL
+        WHERE <![CDATA[REG_DATE < TO_DATE(#{limitedDateTime}, 'YYYY-MM-DD HH24:MI:SS')]]>
+    </delete>
 </mapper>

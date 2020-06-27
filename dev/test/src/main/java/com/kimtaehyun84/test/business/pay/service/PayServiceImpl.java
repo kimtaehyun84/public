@@ -29,11 +29,17 @@ public class PayServiceImpl implements PayService {
     @Transactional
     public ResponseResultDTO distribute(HashMap<String, String> inputParam) throws Exception {
         ResponseResultDTO responseResultDTO = new ResponseResultDTO();
+        String userId = inputParam.get("userId");
+        String roomId = inputParam.get("roomId");
+        String amount = inputParam.get("amount");
+        String targetNum = inputParam.get("targetNum");
+
+        logger.info("User ID : " + userId + " Room Id : " + roomId + " Msg : Start Distribute");
         String token = getToken();
         Random rand  = new Random(System.currentTimeMillis());
         int totalAmount = Integer.parseInt(inputParam.get("amount"));
         int totalTargetNum = Integer.parseInt(inputParam.get("targetNum"));
-
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "amount : " + totalAmount + "targetNum : " + totalTargetNum);
 
         for(int i = 0 ; i<totalTargetNum; i++){
             HashMap<String,String> distributeDetailDTO = new HashMap<>();
@@ -45,18 +51,18 @@ public class PayServiceImpl implements PayService {
                 distributeAmount = (int)Math.floor(totalAmount*rand.nextDouble());
             }
             totalAmount -= distributeAmount;
-            distributeDetailDTO.put("regUserId", inputParam.get("userId"));
+            distributeDetailDTO.put("regUserId", userId);
             distributeDetailDTO.put("token", token);
-            distributeDetailDTO.put("roomId", inputParam.get("roomId"));
+            distributeDetailDTO.put("roomId", roomId);
             distributeDetailDTO.put("amount", Integer.toString(distributeAmount));
             payDAO.insertDistributeDetail(distributeDetailDTO);
         }
         HashMap<String,String> distributeSummaryDTO = new HashMap<>();
         distributeSummaryDTO.put("token", token);
-        distributeSummaryDTO.put("regUserId", inputParam.get("userId"));
-        distributeSummaryDTO.put("roomId", inputParam.get("roomId"));
-        distributeSummaryDTO.put("totalAmount", inputParam.get("amount"));
-        distributeSummaryDTO.put("totalTargetNum",inputParam.get("targetNum"));
+        distributeSummaryDTO.put("regUserId", userId);
+        distributeSummaryDTO.put("roomId", roomId);
+        distributeSummaryDTO.put("totalAmount", amount);
+        distributeSummaryDTO.put("totalTargetNum",targetNum);
         distributeSummaryDTO.put("disable", "N");
         payDAO.insertDistributeSummary(distributeSummaryDTO);
 
@@ -64,6 +70,7 @@ public class PayServiceImpl implements PayService {
         HashMap<String,String> resultMap = new HashMap<>();
         resultMap.put("token", token);
         responseResultDTO.setBody(resultMap);
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : End Distribute");
         return responseResultDTO;
 
 
@@ -79,7 +86,7 @@ public class PayServiceImpl implements PayService {
 
 
         HashMap<String,String> distributeSummaryDTO = payDAO.selectDistributeSummary(inputParam);
-
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Start Receive");
 
 
         if(distributeSummaryDTO != null){ // 동일한 대화방에 유효한 토큰이 있는 경우
@@ -91,20 +98,22 @@ public class PayServiceImpl implements PayService {
             if(LocalDateTime.now().isBefore(expireDate)){ //유효시간
 
                 inputParam.clear();
-                inputParam.put("roomId", roomId);
-                inputParam.put("token", token);
-                inputParam.put("regUserId", regUserId);
-                inputParam.put("recvUserId", userId);
+                            inputParam.put("roomId", roomId);
+                    inputParam.put("token", token);
+                    inputParam.put("regUserId", regUserId);
+                    inputParam.put("recvUserId", userId);
 
 
-                int distributeHistoryCount = Integer.parseInt(String.valueOf(payDAO.selectReceiveHistoryCount(inputParam).get("COUNT")));
-                if(distributeHistoryCount > 0){//이미 받은 경우
-                    responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
-                    responseResultDTO.setMsg("You can only get it once");
-                }
-                else{
-                    if(userId.equals(distributeSummaryDTO.get("REG_USER_ID"))){
+                    int distributeHistoryCount = Integer.parseInt(String.valueOf(payDAO.selectReceiveHistoryCount(inputParam).get("COUNT")));
+                    if(distributeHistoryCount > 0){//이미 받은 경우
+                        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Already Receive");
+                        responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
+                        responseResultDTO.setMsg("You can only get it once");
+                    }
+                    else{
+                        if(userId.equals(distributeSummaryDTO.get("REG_USER_ID"))){
                         //뿌린 사람이 자기 자신인경우
+                        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Can't acquire your own");
                         responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
                         responseResultDTO.setMsg("Can't acquire your own");
                     }
@@ -118,12 +127,13 @@ public class PayServiceImpl implements PayService {
                         HashMap<String,String> distributeDetail = payDAO.selectDistributeDetail(inputParam);
                         if(distributeDetail != null){
                             HashMap<String,String> resultMap = new HashMap<>();
-                            resultMap.put("amount",distributeDetail.get("AMOUNT"));
+                            String amount = distributeDetail.get("AMOUNT");
+                            resultMap.put("amount",amount);
 
-                            inputParam.put("amount", distributeDetail.get("AMOUNT"));
+                            inputParam.put("amount", amount);
                             inputParam.put("regDate", distributeDetail.get("REG_DATE"));
                             inputParam.put("recvUserId", userId);
-
+                            logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Receive " +amount);
                             responseResultDTO.setStatus(GlobalVO.RESULT_OK);
                             responseResultDTO.setBody(resultMap);
 
@@ -131,6 +141,7 @@ public class PayServiceImpl implements PayService {
                             payDAO.deleteDistributeDetail(inputParam);
                         }
                         else{
+                            logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Balance has been exhausted");
                             responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
                             responseResultDTO.setMsg("Balance has been exhausted");
                         }
@@ -162,7 +173,7 @@ public class PayServiceImpl implements PayService {
                         payDAO.deleteDistributeDetail(inputParam);
                     }
                 }
-
+                logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Token has been expired");
                 responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
                 responseResultDTO.setMsg("Token has been expired");
             }
@@ -170,18 +181,20 @@ public class PayServiceImpl implements PayService {
         else{
             responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
             responseResultDTO.setMsg("Token is not available");
+            logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Token is not available");
         }
 
-
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : End Receive");
         return responseResultDTO;
     }
 
     public ResponseResultDTO inquiry(HashMap<String, String> inputParam) throws Exception {
         ResponseResultDTO responseResultDTO = new ResponseResultDTO();
-        //토큰이 유효한지 검
         String token = inputParam.get("token");
         String roomId = inputParam.get("roomId");
         String userId = inputParam.get("userId");
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Start Inquiry");
+
 
         inputParam.clear();
         String endDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -218,7 +231,8 @@ public class PayServiceImpl implements PayService {
             }
             resultMap.put("successTotalReceiveAmount", successTotalReceiveAmount);
             resultMap.put("successReceiveInfoList", receiveInfoList);
-
+            logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token +
+                    " Msg : " + resultMap.toString());
             responseResultDTO.setStatus(GlobalVO.RESULT_OK);
             responseResultDTO.setBody(resultMap);
 
@@ -226,10 +240,11 @@ public class PayServiceImpl implements PayService {
         else{
             responseResultDTO.setStatus(GlobalVO.RESULT_FAIL);
             responseResultDTO.setMsg("Token is not available");
+            logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : Token is not available");
         }
 
 
-
+        logger.info("User ID : " + userId + " Room Id : " + roomId + "Token : " + token + " Msg : End Inquiry");
         return responseResultDTO;
     }
 
