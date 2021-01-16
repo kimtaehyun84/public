@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="distributeMoney">
+    <insert id="createNewDistribute" parameterType="hashmap">
+        INSERT INTO T_DISTRIBUTEMONEY_LIST
+            (ROOM_ID, TOKEN, USER_ID, TOTAL_AMOUNT)
+        VALUES
+            (#{roomId}, #{token}, #{userId}, #{totalAmount})
+    </insert>
+
+    <update id="createNewDistributeDetail" parameterType="list">
+        <foreach collection="list" item = "item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO T_DISTRIBUTEMONEY_DETAIL
+                (SEQ,ROOM_ID, TOKEN, AMOUNT)
+            VALUES
+                (GET_NEXT_SEQ(),#{item.roomId}, #{item.token}, #{item.amount})
+        </foreach>
+    </update>
+
+
+    <select id="verifyValidToken" parameterType="hashmap" resultType="hashmap">
+        SELECT COUNT(TOKEN) AS RESULT
+        FROM T_DISTRIBUTEMONEY_LIST
+        WHERE ROOM_ID = #{roomId}
+            AND TOKEN = #{token}
+            AND USER_ID != #{userId}
+            AND EXP_DATE >= SYSDATE
+    </select>
+
+    <update id="verifyAvailableToken" parameterType="hashmap">
+        MERGE INTO T_DISTRIBUTEMONEY_DETAIL
+        USING DUAL
+        ON ((SELECT COUNT(RECV_USER_ID)
+             FROM T_DISTRIBUTEMONEY_DETAIL
+             WHERE 1 = 1
+               AND RECV_USER_ID = #{userId}
+               AND ROOM_ID = #{roomId}
+               AND TOKEN = #{token}
+            ) = 0
+            )
+        WHEN MATCHED THEN
+                UPDATE SET RECV_USER_ID = #{userId}
+                WHERE 1=1
+                  AND  SEQ = (SELECT MIN(SEQ)
+                            FROM T_DISTRIBUTEMONEY_DETAIL
+                            WHERE RECV_USER_ID is null
+                                AND ROOM_ID = #{roomId}
+                                AND TOKEN = #{token}
+                            )
+    </update>
+
+    <select id = "inquiryReceiveAmount" parameterType="hashmap" resultType="hashmap">
+        SELECT AMOUNT as AMOUNT
+        FROM T_DISTRIBUTEMONEY_DETAIL
+        WHERE ROOM_ID = #{roomId}
+            AND TOKEN = #{token}
+            AND RECV_USER_ID = #{userId}
+    </select>
+
+    <select id = "inquiryDistribute" parameterType="hashmap" resultType="hashmap">
+        SELECT TO_CHAR(T1.REG_DATE, 'YYYY-MM-DD HH24:MI:SS') AS REG_DATE,
+               T1.TOTAL_AMOUNT AS TOTAL_AMOUNT,
+               T2.RECV_USER_ID AS RECV_USER_ID,
+               T2.AMOUNT AS RECV_AMOUNT
+        FROM
+            (SELECT ROOM_ID, TOKEN, REG_DATE, TOTAL_AMOUNT
+             FROM T_DISTRIBUTEMONEY_LIST
+             WHERE  ROOM_ID = #{roomId}
+                AND TOKEN = #{token}
+                AND USER_ID = #{userId}) T1
+            LEFT OUTER JOIN
+             (SELECT ROOM_ID, TOKEN, AMOUNT, RECV_USER_ID
+              FROM T_DISTRIBUTEMONEY_DETAIL
+              WHERE ROOM_ID = #{roomId}
+                AND TOKEN = #{token}
+                AND RECV_USER_ID is not null
+              ) T2 ON T1.ROOM_ID = T2.ROOM_ID AND T1.TOKEN = T1.TOKEN
+
+    </select>
+
+    <delete id="deleteExpiredTokenInfo">
+        delete from T_DISTRIBUTEMONEY_LIST
+        where TO_CHAR(DEL_DATE, 'yyyyMMdd') = TO_CHAR(sysdate, 'yyyyMMdd')
+    </delete>
+</mapper>

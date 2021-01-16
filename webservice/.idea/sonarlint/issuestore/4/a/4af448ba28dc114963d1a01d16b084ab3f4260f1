@@ -1,0 +1,14 @@
+
+`
+java:S1192"JDefine a constant instead of duplicating this literal "X-ROOM-ID" 3 times.(çÓ¾°
+`
+java:S1192"JDefine a constant instead of duplicating this literal "X-USER-ID" 3 times.(ó¾ÆÞ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‹²õˆÿÿÿÿÿ
+`
+java:S4488"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(Õ®²È
+`
+java:S4488$"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(¿ƒþ²
+`
+java:S4488-"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(‘­ýù
+E
+java:S1068"*Remove this unused "logger" private field.(Ïšÿ´üÿÿÿÿ

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="#{commonProperties['jndi.name']}"/>
+	</bean>-->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="#{commonProperties['db.jdbc.driver']}"></property>
+		<property name="url" value="#{commonProperties['db.jdbc.url']}"></property>
+		<property name="username" value="#{commonProperties['db.user']}"></property>
+		<property name="password" value="#{commonProperties['db.password']}"></property>
+	</bean>
+</beans>
+
+
