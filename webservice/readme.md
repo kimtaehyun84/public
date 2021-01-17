@@ -164,22 +164,22 @@ POSTMAN Collection파일 별첨 함(DistributeMoney.postman_collection.json)
 End Point : /webservice/distribute
 Method : POST
 Request
-	- Header
-		X-USER-ID : Integer
-		X-ROOM-ID : String
-		Content-Type : application/json
+- Header
+	X-USER-ID : Integer
+	X-ROOM-ID : String
+	Content-Type : application/json
 
-  - Body
-    { 
-    		"totalAmount" : Integer, //뿌릴 금액
-    		"targetNum" : Integer		 //뿌릴 인원 수
-    }
+- Body
+{ 
+	"totalAmount" : Integer, 	//뿌릴 금액
+	"targetNum" : Integer		//뿌릴 인원 수
+}
 Response
-	- Body
-		{ 
-    		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
-    		"body": "zjD"						//Token
-		}
+- Body
+{ 
+	"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
+	"body": "zjD"			//Token
+}
 
 ```
 
@@ -189,21 +189,21 @@ Response
 End Point : /webservice/receive
 Method : POST
 Request
-	- Header
-		X-USER-ID : Integer
-		X-ROOM-ID : String
-		Content-Type : application/json
+- Header
+	X-USER-ID : Integer
+	X-ROOM-ID : String
+	Content-Type : application/json
 
-  - Body
-    { 
-    		"token" : String,       //토큰
-    }
+- Body
+{ 
+	"token" : String,       	//Token
+}
 Response
-	- Body
-		{ 
-    		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
-    		"body": 1581						//받은 금액
-		}
+- Body
+{ 
+	"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
+	"body": 1581			//받은 금액
+}
 
 ```
 
@@ -213,31 +213,31 @@ Response
 End Point : /webservice/inquiry
 Method : POST
 Request
-	- Header
-		X-USER-ID : Integer
-		X-ROOM-ID : String
-		Content-Type : application/json
-    
-  - Body
-    { 
-    		"token" : String, //토큰
-    }
+- Header
+	X-USER-ID : Integer
+	X-ROOM-ID : String
+	Content-Type : application/json
+
+- Body
+{ 
+	"token" : String, 		//Token
+}
 Response
-	- Body
-		{
-        "result": "SUCCESS",										//결과 (SUCCESS/FAIL)
-        "body": {
-            "totalAmount": 3421,								//뿌린 금액
-            "regDate": "2021-01-16 10:53:57", 	//뿌린 시간
-            "receiveCompleteInfoList": [				//받은 정보
-                {
-                    "receiveAmount": 1581,			//받은 금액
-                    "recvUserId": 4538					//받은 사용자 아이디
-                }
-            ],
-            "totalReceiveAmount": 1581					//받기 완료된 금액 합계
-        }
-    }
+- Body
+{
+	"result": "SUCCESS",					//결과 (SUCCESS/FAIL)
+	"body": {
+    		"totalAmount": 3421,				//뿌린 금액
+    		"regDate": "2021-01-16 10:53:57", 		//뿌린 시간
+   		"receiveCompleteInfoList": [			//받은 정보
+			{
+			    "receiveAmount": 1581,		//받은 금액
+		    		"recvUserId": 4538		//받은 사용자 아이디
+			} ...
+    		],
+    	"totalReceiveAmount": 1581				//받기 완료된 금액 합계
+}
+
 
     	
 ```
