@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!-- To enable JMX Management -->
+    <jmxConfigurator/>
+
+    <!-- Load config property files -->
+    <property resource="props/common.properties"/>
+
+
+    <!-- ${property:-defaultValue} -->
+    <property name="log.home" value="${log.home:-/logs/app}"/>
+    <property name="log.pattern"
+              value="${log.pattern:-[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{clientIp} : %thread] [%-41c{1}:%4L] %msg %n}"/>
+
+    <property nmae="log.maxHistoryDate" value = "${log.maxHistoryDate:90}"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="appAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.home}/app/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/app/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <logger name="net.sf.json" level="ERROR">
+    </logger>
+
+    <logger name="org.apache" level="WARN">
+    </logger>
+
+    <logger name="org.springframework" level="WARN">
+    </logger>
+
+
+    <logger name="com.taehyun.webservice.business" level="debug">
+        <appender-ref ref="appAppender"></appender-ref>
+    </logger>
+
+
+
+    <!-- root Logger -->
+    <root>
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="appAppender"></appender-ref>
+    </root>
+
+</configuration>

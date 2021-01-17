@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "b4005eaf-f9b0-4336-929a-1f8a2c35841c",
+		"name": "DistributeMoney",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "distribute",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-USER-ID",
+						"value": "32",
+						"type": "text"
+					},
+					{
+						"key": "X-ROOM-ID",
+						"value": "A1235dd",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"totalAmount\":45678,\n    \"targetNum\": 6\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/webservice/distribute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"webservice",
+						"distribute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "receive",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-USER-ID",
+						"value": "21",
+						"type": "text"
+					},
+					{
+						"key": "X-ROOM-ID",
+						"value": "A1235dd",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\" : \"ocm\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/webservice/receive",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"webservice",
+						"receive"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "inquiry",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-USER-ID",
+						"value": "32",
+						"type": "text"
+					},
+					{
+						"key": "X-ROOM-ID",
+						"value": "A1235ff",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\":\"Fi`\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/webservice/inquiry",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"webservice",
+						"inquiry"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"value": ""
+		}
+	]
+}
