@@ -166,17 +166,17 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
-    { 
-    		"totalAmount" : Integer, //뿌릴 금액
-    		"targetNum" : Integer		 //뿌릴 인원 수
-    }
+    	- Body
+    	{ 
+    		"totalAmount" : Integer, 	//뿌릴 금액
+    		"targetNum" : Integer		//뿌릴 인원 수
+    	}
 Response
 	- Body
-		{ 
+	{ 
     		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
-    		"body": "zjD"						//Token
-		}
+    		"body": "zjD"			//Token
+	}
 ```
 
 #### 2. 받기 API
@@ -189,15 +189,15 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
-    { 
+   	- Body
+    	{ 
     		"token" : String, //토큰
-    }
+    	}
 Response
 	- Body
 		{ 
     		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
-    		"body": 1581						//받은 금액
+    		"body": 1581			//받은 금액
 		}
 ```
 
@@ -211,25 +211,26 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
-    { 
+    	- Body
+    	{ 
     		"token" : String, //토큰
-    }
+    	}
 Response
 	- Body
-		{
-        "result": "SUCCESS",										//결과 (SUCCESS/FAIL)
-        "body": {
-            "totalAmount": 3421,								//뿌린 금액
-            "regDate": "2021-01-16 10:53:57", 	//뿌린 시간
-            "receiveCompleteInfoList": [				//받은 정보
-                {
-                    "receiveAmount": 1581,			//받은 금액
-                    "recvUserId": 4538					//받은 사용자 아이디
-                }
-            ],
-            "totalReceiveAmount": 1581					//받기 완료된 금액 합계
+	{
+        	"result": "SUCCESS",				//결과 (SUCCESS/FAIL)
+        	"body": {
+			"totalAmount": 3421,			//뿌린 금액
+			"regDate": "2021-01-16 10:53:57", 	//뿌린 시간
+			"receiveCompleteInfoList": 
+				[				//받은 정보
+				   {
+					"receiveAmount": 1581,	//받은 금액
+					"recvUserId": 4538	//받은 사용자 아이디
+				   }
+				   ...
+            			],
+            	"totalReceiveAmount": 1581			//받기 완료된 금액 합계
         }
-    }
 ```
 
