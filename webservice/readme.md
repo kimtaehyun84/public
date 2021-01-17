@@ -88,7 +88,7 @@ Token은 3자리 문자열이며 각 Token은 뿌려진 대화방에서만 유�
 
 DB스크립트는 Project의 DB Script.sql에 작성함.
 
-| TABLE명 | T_DISTRIBUTEMONEY_LIST |              |                  | 
+| TABLE명 | T_DISTRIBUTEMONEY_LIST.                                  | 
 | ------- | ---------------------- | ------------ | ---------------- |
 | NO      | COLUMN명               | TYPE         | DEFAULT          |
 | 1       | ROOM_ID                | varchar(100) |                  |
@@ -100,15 +100,15 @@ DB스크립트는 Project의 DB Script.sql에 작성함.
 | 7       | DEL_DATE               | DATE         | SYSDATE + 8      |
 | PK      | ROOM_ID + TOKEN        |              |                  |
 
-| TABLE명 | T_DISTRIBUTEMONEY_DETAIL |              |                   |
-| ------- | ------------------------ | ------------ | ----------------- |
-| NO      | COLUMN명                 | TYPE         | DEFAULT           |
-| 1       | SEQ                      | NUMBER       | AUTO INCREASEMENT |
-| 2       | ROOM_ID                  | varchar(100) |                   |
-| 3       | TOKEN                    | varchar(3)   |                   |
-| 4       | AMOUNT                   | NUMBER       |                   |
-| 5       | RECV_USER_ID             | NUMBER       |                   |
-| PK      | SEQ                      | FK           | ROOM_ID + TOKEN   |
+| TABLE명 | T_DISTRIBUTEMONEY_DETAIL                            	     |
+| ------- | -----------------------| ------------ | ----------------- |
+| NO      | COLUMN명                | TYPE         | DEFAULT           |
+| 1       | SEQ                    | NUMBER       | AUTO INCREASEMENT |
+| 2       | ROOM_ID                | varchar(100) |                   |
+| 3       | TOKEN                  | varchar(3)   |                   |
+| 4       | AMOUNT                 | NUMBER       |                   |
+| 5       | RECV_USER_ID           | NUMBER       |                   |
+| PK      | SEQ                    | FK           | ROOM_ID + TOKEN   |
 
 ## USE-CASE설계
 
@@ -195,10 +195,10 @@ Request
     	}
 Response
 	- Body
-		{ 
+	{ 
     		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
     		"body": 1581			//받은 금액
-		}
+	}
 ```
 
 #### 3. 조회 API
