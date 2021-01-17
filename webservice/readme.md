@@ -88,6 +88,7 @@ Token은 3자리 문자열이며 각 Token은 뿌려진 대화방에서만 유�
 
 DB스크립트는 Project의 DB Script.sql에 작성함.
 
+
 | TABLE명 | T_DISTRIBUTEMONEY_LIST |              |                  | 
 | ------- | ---------------------- | ------------ | ---------------- |
 | NO      | COLUMN명               | TYPE         | DEFAULT          |
@@ -109,6 +110,7 @@ DB스크립트는 Project의 DB Script.sql에 작성함.
 | 4       | AMOUNT                   | NUMBER       |                   |
 | 5       | RECV_USER_ID             | NUMBER       |                   |
 | PK      | SEQ                      | FK           | ROOM_ID + TOKEN   |
+
 
 ## USE-CASE설계
 
@@ -166,7 +168,8 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
+
+  - Body
     { 
     		"totalAmount" : Integer, //뿌릴 금액
     		"targetNum" : Integer		 //뿌릴 인원 수
@@ -177,6 +180,7 @@ Response
     		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
     		"body": "zjD"						//Token
 		}
+
 ```
 
 #### 2. 받기 API
@@ -189,9 +193,10 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
+
+  - Body
     { 
-    		"token" : String, //토큰
+    		"token" : String,       //토큰
     }
 Response
 	- Body
@@ -199,6 +204,7 @@ Response
     		"result": "SUCCESS",		//결과 (SUCCESS/FAIL)
     		"body": 1581						//받은 금액
 		}
+
 ```
 
 #### 3. 조회 API
@@ -211,7 +217,8 @@ Request
 		X-USER-ID : Integer
 		X-ROOM-ID : String
 		Content-Type : application/json
-    - Body
+    
+  - Body
     { 
     		"token" : String, //토큰
     }
@@ -231,5 +238,7 @@ Response
             "totalReceiveAmount": 1581					//받기 완료된 금액 합계
         }
     }
+
+    	
 ```
 

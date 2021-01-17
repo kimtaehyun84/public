@@ -1,0 +1,10 @@
+
+`
+java:S1192"LDefine a constant instead of duplicating this literal "RECV_AMOUNT" 3 times.(««™›
+Z
+java:S1192"GDefine a constant instead of duplicating this literal "roomId" 4 times.(§¡îD
+`
+java:S1192"GDefine a constant instead of duplicating this literal "userId" 3 times.(ÆËŠïıÿÿÿÿ
+Z
+java:S1192"FDefine a constant instead of duplicating this literal "token" 5 times.(ÍÉîó
+m	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÃµÂ¾
